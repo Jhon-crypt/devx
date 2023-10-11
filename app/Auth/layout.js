@@ -1,8 +1,8 @@
 export const metadata = {
-    title: 'About | DevX',
+    title: 'Authentication | DevX',
     description: '',
   }
 
-export default function AboutLayout({ children }) {
+export default function AuthLayout({ children }) {
     return <section>{children}</section>
 }
