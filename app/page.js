@@ -1,4 +1,3 @@
-import Image from 'next/image'
 import Header from './components/header/header'
 import IntroHero from './components/hero/introHero'
 import Footer from './components/footer/footer'

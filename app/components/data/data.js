@@ -4,7 +4,6 @@
   import { AiFillThunderbolt } from "react-icons/ai";
   
   import benefitOneImg from "../../../public/img/coder.svg";
-  import benefitTwoImg from "../../../public/img/benefit-two.png";
   
   const benefitOne = {
     title: "Crafting Unique Developer Portfolios",
