@@ -1,7 +1,7 @@
 import Link from "next/link"
 import { FaUserSecret } from "react-icons/fa";
 
-export default function StickyHeader() {
+export default function StickyHeader(props) {
 
     return (
 
@@ -9,7 +9,7 @@ export default function StickyHeader() {
 
             <div class="sticky z-10 top-0 h-16 border-b bg-white lg:py-2.5">
                 <div class="px-6 flex items-center justify-between space-x-4 2xl:container">
-                    <h5 hidden class="text-2xl text-gray-600 font-medium lg:block">Dashboard</h5>
+                    <h5 hidden class="text-2xl text-gray-600 font-medium lg:block">{props.title}</h5>
                     <div class="md:hidden">
                         <div class="relative flex items-center text-gray-400 focus-within:text-cyan-400">
 
