@@ -3,4 +3,8 @@
 @tailwind utilities;
 
 
-
+@media (max-width: 484px) {
+    #hideMockUp {
+        display: none;
+    }    
+  }

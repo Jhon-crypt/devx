@@ -1,6 +1,6 @@
-import { AiFillGithub, AiOutlineShareAlt } from "react-icons/ai";
-import { FiMoreHorizontal } from "react-icons/fi";
+import { AiFillGithub, AiOutlineShareAlt, AiFillDelete } from "react-icons/ai";
 import { GrView } from "react-icons/gr";
+import { BiSolidEdit } from "react-icons/bi";
 
 export default function PortfolioCards(props) {
 
@@ -46,10 +46,13 @@ export default function PortfolioCards(props) {
                         >
                             <AiOutlineShareAlt class="h-5 w-5" />
                         </span>
-
                         <span class="cursor-pointer rounded-full border border-indigo-500/5 bg-indigo-500/5 p-3 text-indigo-500 transition-colors hover:border-indigo-500/10 hover:bg-indigo-500/10 hover:!opacity-100 group-hover:opacity-70"
                         >
-                            <FiMoreHorizontal class="h-5 w-5" />
+                            <BiSolidEdit class="h-5 w-5" />
+                        </span>
+                        <span class="cursor-pointer rounded-full border border-indigo-500/5 bg-indigo-500/5 p-3 text-indigo-500 transition-colors hover:border-indigo-500/10 hover:bg-indigo-500/10 hover:!opacity-100 group-hover:opacity-70"
+                        >
+                            <AiFillDelete class="h-5 w-5" />
                         </span>
 
 
