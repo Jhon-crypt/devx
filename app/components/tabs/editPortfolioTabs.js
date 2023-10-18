@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import ProfileForm from '../forms/editProfileForm'
 import SkillsForm from '../forms/editSkillsForm';
+import EditProjectForm from '../forms/eidtProjectForm';
 
 export default function EditPortfolioTabs() {
   const [activeTab, setActiveTab] = useState('Profile');
@@ -14,6 +15,11 @@ export default function EditPortfolioTabs() {
     Skills: (
         <>
             <SkillsForm />
+      </>
+    ),
+    Projects: (
+      <>
+          <EditProjectForm />
       </>
     ),
     Contact: (
@@ -45,6 +51,12 @@ export default function EditPortfolioTabs() {
           onClick={() => setActiveTab('Skills')}
         >
           Skills
+        </a>
+        <a
+          className={`tab ${activeTab === 'Projects' ? 'tab-active' : ''}`}
+          onClick={() => setActiveTab('Projects')}
+        >
+          Projects
         </a>
         <a
           className={`tab ${activeTab === 'Contact' ? 'tab-active' : ''}`}
