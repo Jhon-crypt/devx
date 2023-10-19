@@ -1,11 +1,37 @@
+'use client'
 import Link from "next/link"
 import { FaUserSecret } from "react-icons/fa";
 import { ImProfile } from "react-icons/im";
 import { AiOutlinePlusSquare } from "react-icons/ai";
 import { BiCog } from "react-icons/bi";
 import { GrLogout } from "react-icons/gr";
+import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { Hanko } from "@teamhanko/hanko-elements";
+
+const hankoApi = process.env.NEXT_PUBLIC_HANKO_API_URL;
 
 export default function SidebarHeader() {
+
+    const router = useRouter();
+    const [hanko, setHanko] = useState(null);
+
+    useEffect(() => {
+        import("@teamhanko/hanko-elements").then(({ Hanko }) =>
+            setHanko(new Hanko(hankoApi ?? ""))
+        );
+    }, []);
+
+    const logout = async () => {
+        try {
+          await hanko?.user.logout();
+          router.push("/Login");
+          router.refresh();
+          return;
+        } catch (error) {
+          console.error("Error during logout:", error);
+        }
+      };
 
     return (
 
@@ -45,12 +71,12 @@ export default function SidebarHeader() {
                                 <span class="-mr-1 font-medium">Settings</span>
                             </Link>
                         </li>
-                        
+
                     </ul>
                 </div>
 
                 <div class="px-6 -mx-6 pt-4 flex justify-between items-center border-t">
-                    <button class="px-4 py-3 flex items-center space-x-4 rounded-md text-indigo-500 group">
+                    <button onClick={logout} class="px-4 py-3 flex items-center space-x-4 rounded-md text-indigo-500 group">
                         <GrLogout class="h-6 w-6 text-indigo-500" />
                         <span class="group-hover:text-gray-700">Logout</span>
                     </button>

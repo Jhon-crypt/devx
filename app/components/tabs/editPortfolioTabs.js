@@ -2,6 +2,7 @@ import { useState } from 'react';
 import ProfileForm from '../forms/editProfileForm'
 import SkillsForm from '../forms/editSkillsForm';
 import EditProjectForm from '../forms/eidtProjectForm';
+import EditContactForm from '../forms/editContactForm';
 
 export default function EditPortfolioTabs() {
   const [activeTab, setActiveTab] = useState('Profile');
@@ -23,17 +24,9 @@ export default function EditPortfolioTabs() {
       </>
     ),
     Contact: (
-      <div class="relative mb-4">
-        <label for="message" class="leading-7 text-sm text-gray-600">About you</label>
-        <textarea
-          id="message"
-          name="message"
-          class="mb-3 w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 h-32 text-base outline-none text-gray-700 py-3 px-4 resize-none leading-6 transition-colors duration-200 ease-in-out"
-        ></textarea>
-        <button class="bg-white border border-indigo-500 text-indigo-500 rounded-md px-2 py-1 text-sm hover:bg-indigo-500 hover:text-white hover:border-indigo-600 focus:outline-none focus:ring focus:ring-indigo-200">
-          Update about
-        </button>
-      </div>
+      <>
+          <EditContactForm />
+      </>
     ),
   };
 
@@ -41,25 +34,25 @@ export default function EditPortfolioTabs() {
     <div>
       <div className="flex justify-center tabs tabs-boxed">
         <a
-          className={`tab ${activeTab === 'Profile' ? 'tab-active' : ''}`}
+          className={`tab ${activeTab === 'Profile' ? 'tab-active' : ''} tab-sm`}
           onClick={() => setActiveTab('Profile')}
         >
           Profile
         </a>
         <a
-          className={`tab ${activeTab === 'Skills' ? 'tab-active' : ''}`}
+          className={`tab ${activeTab === 'Skills' ? 'tab-active' : ''} tab-sm`}
           onClick={() => setActiveTab('Skills')}
         >
           Skills
         </a>
         <a
-          className={`tab ${activeTab === 'Projects' ? 'tab-active' : ''}`}
+          className={`tab ${activeTab === 'Projects' ? 'tab-active' : ''} tab-sm`}
           onClick={() => setActiveTab('Projects')}
         >
           Projects
         </a>
         <a
-          className={`tab ${activeTab === 'Contact' ? 'tab-active' : ''}`}
+          className={`tab ${activeTab === 'Contact' ? 'tab-active' : ''} tab-sm`}
           onClick={() => setActiveTab('Contact')}
         >
           Contact
