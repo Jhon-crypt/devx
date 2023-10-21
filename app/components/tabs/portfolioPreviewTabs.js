@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Profile, Skills } from '../section/portfolio';
+import { Profile, Skills, Projects, Contact } from '../section/portfolio';
 
 export default function PortfolioPreviewTabs() {
     const [activeTab, setActiveTab] = useState('Profile');
@@ -19,12 +19,14 @@ export default function PortfolioPreviewTabs() {
         ),
         Projects: (
             <>
-
+                <br />
+                <Projects />
             </>
         ),
         Contact: (
             <>
-
+                <br />
+                <Contact />
             </>
         ),
     };
