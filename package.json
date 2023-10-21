@@ -15,6 +15,7 @@
     "@emotion/styled": "^11.10.6",
     "@headlessui/react": "^1.7.14",
     "@heroicons/react": "^2.0.17",
+    "@supabase/supabase-js": "^2.38.2",
     "@tailwindcss/aspect-ratio": "^0.4.2",
     "@teamhanko/hanko-elements": "^0.8.4",
     "jose": "^4.15.2",
@@ -22,7 +23,8 @@
     "next-themes": "^0.2.1",
     "react": "^18",
     "react-dom": "^18",
-    "react-icons": "^4.11.0"
+    "react-icons": "^4.11.0",
+    "uuid": "^9.0.1"
   },
   "devDependencies": {
     "autoprefixer": "^10",

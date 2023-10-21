@@ -54,8 +54,6 @@ export function Projects() {
 
             <div class="bg-white font-semibold text-center rounded-3xl border shadow-lg p-10 max-w-xs">
 
-
-
                 <div class="w-60 overflow-x-auto max-h-[18rem]" style={{ height: "auto", maxHeight: "20px;", overflow: "auto;" }}>
 
                     <div class="relative flex w-full flex-col rounded-xl bg-white bg-clip-border text-gray-700 shadow-lg">
