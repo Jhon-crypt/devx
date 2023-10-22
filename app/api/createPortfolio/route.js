@@ -1,6 +1,7 @@
 // Importing the NextResponse object from the next/server module
 import { NextResponse } from "next/server";
 
+//importing UUID library
 import { v4 as uuidv4 } from 'uuid';
 
 // Importing the supabase client from the app/supabase/supabase module
@@ -16,6 +17,7 @@ export async function POST(req) {
 
         let portfolio_id = uuidv4();
 
+        // Inserting a new row into the portfolio table in the supabase client
         const { error } = await supabase
             .from("portfolio")
             .insert({
