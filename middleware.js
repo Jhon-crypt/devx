@@ -1,0 +1,27 @@
+import { NextResponse } from "next/server";
+
+import { jwtVerify, createRemoteJWKSet } from "jose";
+
+const hankoApiUrl = process.env.NEXT_PUBLIC_HANKO_API_URL;
+
+export async function middleware(req) {
+    const hanko = req.cookies.get("hanko")?.value;
+
+    const JWKS = createRemoteJWKSet(
+        new URL(`${hankoApiUrl}/.well-known/jwks.json`)
+    );
+
+    try {
+        const verifiedJWT = await jwtVerify(hanko ?? "", JWKS);
+    } catch {
+        return NextResponse.redirect(new URL("/Login", req.url));
+    }
+}
+
+export const config = {
+    matcher: [
+        "/Portfolio",
+        "/Create",
+        "/editPortfolio",
+    ],
+};
