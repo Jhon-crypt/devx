@@ -3,7 +3,8 @@ import EditPortfolioTabs from '../../components/tabs/editPortfolioTabs.js'
 import { useState, useEffect } from 'react';
 import PortfolioPreviewTabs from '../tabs/portfolioPreviewTabs.js';
 
-export default function EditPortfolioSection() {
+export default function EditPortfolioSection(props) {
+
 
     const [elementVisible, setElementVisible] = useState(true);
 
@@ -53,7 +54,7 @@ export default function EditPortfolioSection() {
                             )}
                         </div>
 
-                        <EditPortfolioTabs />
+                        <EditPortfolioTabs id={props.id}/>
                         {/*}
                         <button class="text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded text-lg">Button</button>
                         {*/}

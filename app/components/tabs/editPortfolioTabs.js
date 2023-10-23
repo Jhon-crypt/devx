@@ -1,16 +1,18 @@
+"use client"
 import { useState } from 'react';
 import ProfileForm from '../forms/editProfileForm'
 import SkillsForm from '../forms/editSkillsForm';
 import EditProjectForm from '../forms/eidtProjectForm';
 import EditContactForm from '../forms/editContactForm';
 
-export default function EditPortfolioTabs() {
+export default function EditPortfolioTabs(props) {
+
   const [activeTab, setActiveTab] = useState('Profile');
 
   const tabContent = {
     Profile: (
         <>
-            <ProfileForm />
+            <ProfileForm id={props.id} />
       </>
     ),
     Skills: (

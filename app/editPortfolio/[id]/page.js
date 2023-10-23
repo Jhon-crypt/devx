@@ -4,7 +4,7 @@ import EditPortfolioSection from '../../components/section/editPortfolioSection'
 
 export default function EditPortfolio({ params }) {
 
-    
+
 
     return (
 
@@ -16,7 +16,7 @@ export default function EditPortfolio({ params }) {
 
                 <StickyHeader title="Edit portfolio" />
 
-                <EditPortfolioSection />
+                <EditPortfolioSection id={params.id}/>
 
             </div>
 
