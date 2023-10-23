@@ -1,8 +1,10 @@
-import SidebarHeader from "../components/header/sidebarHeader"
-import StickyHeader from "../components/header/stickyHeader"
-import EditPortfolioSection from '../components/section/editPortfolioSection'
+import SidebarHeader from "../../components/header/sidebarHeader"
+import StickyHeader from "../../components/header/stickyHeader"
+import EditPortfolioSection from '../../components/section/editPortfolioSection'
 
-export default function EditPortfolio() {
+export default function EditPortfolio({ params }) {
+
+    
 
     return (
 

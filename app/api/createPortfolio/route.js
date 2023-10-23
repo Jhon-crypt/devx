@@ -17,6 +17,51 @@ export async function POST(req) {
 
         let portfolio_id = uuidv4();
 
+        async function createPortfolioProjects() {
+
+            const { error } = await supabase
+                .from("portfolio-projects")
+                .insert({
+                    "user-id": `${user_id}`,
+                    "portfolio-id": `${portfolio_id}`
+                });
+    
+        }
+    
+        async function createPortfolioSkills() {
+    
+            const { error } = await supabase
+                .from("portfolio-skills")
+                .insert({
+                    "user-id": `${user_id}`,
+                    "portfolio-id": `${portfolio_id}`
+                });
+    
+        }
+    
+        async function createPortfolioViews() {
+    
+            const { error } = await supabase
+                .from("portfolio-views")
+                .insert({
+                    "user-id": `${user_id}`,
+                    "portfolio-id": `${portfolio_id}`
+                });
+    
+        }
+    
+        async function createPortfolioContact() {
+    
+            const { error } = await supabase
+                .from("project-contact")
+                .insert({
+                    "user-id": `${user_id}`,
+                    "portfolio-id": `${portfolio_id}`
+                });
+    
+        }
+    
+
         // Inserting a new row into the portfolio table in the supabase client
         const { error } = await supabase
             .from("portfolio")
@@ -29,11 +74,16 @@ export async function POST(req) {
         if (error) {
 
             const error_message = "Error while creating portfolio, try again"
-            return NextResponse.json({ error: error_message })
+            return NextResponse.json({ error: error_message, status: 500 })
 
         } else {
 
-            return NextResponse.json({ message: "Portfolio Created", data: portfolio_id })
+            createPortfolioProjects();
+            createPortfolioSkills();
+            createPortfolioViews();
+            createPortfolioContact();
+
+            return NextResponse.json({ status: 201 })
 
         }
 
@@ -41,10 +91,11 @@ export async function POST(req) {
     } catch (error) {
 
         const error_message = "Error while creating portfolio, try again"
-        return NextResponse.json({ error: error_message })
+        return NextResponse.json({ error: error_message, error_status: 500 })
 
     }
 
+    
 
 
 }
