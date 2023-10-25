@@ -10,6 +10,70 @@ export default function SkillsForm(props) {
     const [status, setStatus] = useState(false);
     const [error, setError] = useState(false);
 
+    const [profile_skills, setprofile_skills] = useState([]);
+    const [skillsLoading, setSkillsLoading] = useState(false);
+
+    useEffect(() => {
+
+        setSkillsLoading(true)
+
+        async function fetchSkills() {
+
+            try {
+
+                const { data: skills, error } = await supabase
+                    .from('portfolio-skills')
+                    .select('*')
+                    .eq('portfolio-id', `${props.id}`)
+
+                if (skills) {
+
+                    setprofile_skills(skills)
+
+                    setSkillsLoading(false)
+
+                } else if (error) {
+
+                    setSkillsLoading(false)
+
+                }
+
+            } catch (error) {
+
+                setSkillsLoading(false)
+
+            }
+
+        }
+
+        fetchSkills()
+
+    }, [])
+
+    useEffect(() => {
+
+        const skillsListener = supabase
+            .channel('any')
+            .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'portfolio-skills' }, payload => {
+                const newSkill = payload.new;
+                setprofile_skills((oldSkill) => {
+                    const newSkills = [...oldSkill, newSkill];
+                    newSkills.sort((a, b) => b.id - a.id);
+                    return newSkills;
+                });
+            })
+            .subscribe()
+
+        return () => {
+
+            supabase.removeChannel(skillsListener)
+
+        };
+
+    }, [])
+
+
+
     async function addSkills(event) {
 
         event.preventDefault();
@@ -25,7 +89,7 @@ export default function SkillsForm(props) {
             const { error } = await supabase
                 .from('portfolio-skills')
                 .insert({
-                    "skills-name": `${add_skills_data.add_skills}`,
+                    "skills_name": `${add_skills_data.add_skills}`,
                     "portfolio-id": `${props.id}`
                 });
 
@@ -135,44 +199,31 @@ export default function SkillsForm(props) {
 
                     }
                 </form>
+                {skillsLoading ?
 
-                <ul className="menu menu-vertical lg:menu-horizontal bg-base-200 rounded-box">
-                    <li>
-                        <a>
-                            <div className="badge badge-outline gap-2">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" className="inline-block w-4 h-4 stroke-current"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"></path></svg>
-                                Html
-                            </div></a>
-                    </li>
-                    <li>
-                        <a>
-                            <div className="badge badge-outline gap-2">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" className="inline-block w-4 h-4 stroke-current"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"></path></svg>
-                                Css
-                            </div></a>
-                    </li>
-                    <li>
-                        <a>
-                            <div className="badge badge-outline gap-2">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" className="inline-block w-4 h-4 stroke-current"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"></path></svg>
-                                Javascript
-                            </div></a>
-                    </li>
-                    <li>
-                        <a>
-                            <div className="badge badge-outline gap-2">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" className="inline-block w-4 h-4 stroke-current"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"></path></svg>
-                                Php
-                            </div></a>
-                    </li>
-                    <li>
-                        <a>
-                            <div className="badge badge-outline gap-2">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" className="inline-block w-4 h-4 stroke-current"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"></path></svg>
-                                Python
-                            </div></a>
-                    </li>
-                </ul>
+                    <>
+                        <div className="flex justify-center mb-2">
+                            <span className="loading loading-spinner loading-xm"></span>
+                        </div>
+                    </>
+                    :
+                    <>
+                        <ul className="menu menu-vertical lg:menu-horizontal bg-base-200 rounded-box">
+                            {profile_skills.map((skills) => (
+                                <>
+                                    <li key={skills.id}>
+                                        <a>
+                                            <div className="badge badge-outline gap-2">
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" className="inline-block w-4 h-4 stroke-current"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                                                {skills.skills_name}
+                                            </div></a>
+                                    </li>
+                                </>
+                            ))}
+                        </ul>
+                    </>
+
+                }
 
             </div>
 
