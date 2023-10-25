@@ -55,7 +55,7 @@ export default function HomeSection() {
                     {/*}If loading is true, render a loading spinner{*/}
                     <div className="flex justify-center mt-20">
                         <span className="loading loading-spinner loading-lg"></span>
-                    </div>
+                    </div>  
 
                 </>
                 :

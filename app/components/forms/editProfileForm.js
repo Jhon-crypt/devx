@@ -196,6 +196,7 @@ export default function ProfileForm(props) {
                 <form onSubmit={updateName}>
                     <label for="name" class="leading-7 text-sm text-gray-600">Name</label>
                     <input
+                        required
                         placeholder="Oladele John"
                         type="text"
                         id="name"
@@ -270,6 +271,7 @@ export default function ProfileForm(props) {
                 <form onSubmit={updateTitle}>
                     <label for="title" class="leading-7 text-sm text-gray-600">Title</label>
                     <input
+                        required
                         placeholder="Front-end developer"
                         type="text"
                         id="title"
@@ -335,6 +337,7 @@ export default function ProfileForm(props) {
                 <form onSubmit={updateAbout}>
                     <label for="about" class="leading-7 text-sm text-gray-600">About you</label>
                     <textarea
+                        required
                         id="about"
                         name="about"
                         class="mb-3 w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 h-32 text-base outline-none text-gray-700 py-1 px-3 resize-none leading-6 transition-colors duration-200 ease-in-out"
