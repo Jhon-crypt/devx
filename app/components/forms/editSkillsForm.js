@@ -12,6 +12,7 @@ export default function SkillsForm(props) {
 
     const [profile_skills, setprofile_skills] = useState([]);
     const [skillsLoading, setSkillsLoading] = useState(false);
+    const [deleteLoading, setDeleteLoading] = useState(false);
 
     useEffect(() => {
 
@@ -123,6 +124,37 @@ export default function SkillsForm(props) {
 
     }
 
+    const deleteSkills = async (id) => {
+
+        try {
+
+            setDeleteLoading(true)
+
+            const { error } = await supabase
+                .from('portfolio-skills')
+                .delete()
+                .eq('id', `${id}`)
+
+            if (error) {
+
+                setDeleteLoading(false)
+
+            } else {
+
+                setDeleteLoading(false)
+
+                setprofile_skills(profile_skills.filter((x) => x.id != id))
+
+            }
+
+        } catch (error) {
+
+            console.log(error)
+
+        }
+
+    }
+
     function deleteAlert() {
 
         setStatus(false)
@@ -199,6 +231,15 @@ export default function SkillsForm(props) {
 
                     }
                 </form>
+                {deleteLoading ?
+
+                    <div className="flex justify-center mb-2">
+                        <span className="loading loading-spinner loading-xm"></span><small>Deleting</small>
+                    </div>
+                    :
+                    <></>
+                
+                }
                 {skillsLoading ?
 
                     <>
@@ -214,7 +255,7 @@ export default function SkillsForm(props) {
                                     <li key={skills.id}>
                                         <a>
                                             <div className="badge badge-outline gap-2">
-                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" className="inline-block w-4 h-4 stroke-current"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                                                <svg onClick={() => deleteSkills(skills.id)} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" className="inline-block w-4 h-4 stroke-current"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"></path></svg>
                                                 {skills.skills_name}
                                             </div></a>
                                     </li>
