@@ -175,6 +175,7 @@ export default function SkillsForm(props) {
                 <form onSubmit={addSkills}>
                     <label for="skills" class="leading-7 text-sm text-gray-600">Skills</label>
                     <input
+                        required
                         placeholder="Html..."
                         type="text"
                         id="skills"
