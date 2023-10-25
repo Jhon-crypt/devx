@@ -17,7 +17,7 @@ export default function EditPortfolioTabs(props) {
     ),
     Skills: (
         <>
-            <SkillsForm />
+            <SkillsForm id={props.id}/>
       </>
     ),
     Projects: (

@@ -192,7 +192,7 @@ export default function ProfileForm(props) {
 
         <>
 
-            <div class="relative mb-4">
+            <div class="relative mb-4 mt-2">
                 <form onSubmit={updateName}>
                     <label for="name" class="leading-7 text-sm text-gray-600">Name</label>
                     <input
