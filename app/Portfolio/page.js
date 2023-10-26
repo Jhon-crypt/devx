@@ -1,3 +1,4 @@
+'use client'
 import HomeSection from "../components/section/HomeSection"
 import SidebarHeader from "../components/header/sidebarHeader"
 import StickyHeader from "../components/header/stickyHeader"

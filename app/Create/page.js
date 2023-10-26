@@ -1,3 +1,4 @@
+'use client'
 import dynamic from 'next/dynamic';
 import SidebarHeader from "../components/header/sidebarHeader"
 import StickyHeader from "../components/header/stickyHeader"
