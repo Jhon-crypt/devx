@@ -1,3 +1,4 @@
+'use client'
 import Container from "../container/container";
 
 export default function Section(props) {

@@ -1,3 +1,4 @@
+'use client'
 import Container from "../container/container";
 import { Disclosure } from "@headlessui/react";
 import { ChevronUpIcon } from "@heroicons/react/24/solid";

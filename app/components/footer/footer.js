@@ -1,3 +1,4 @@
+'use client'
 import Container from "../container/container";
 import { FaUserSecret } from "react-icons/fa";
 import Link from "next/link";
