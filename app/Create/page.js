@@ -1,7 +1,7 @@
 'use client'
 import dynamic from 'next/dynamic';
-import SidebarHeader from "../components/header/sidebarHeader"
-import StickyHeader from "../components/header/stickyHeader"
+const SidebarHeader = dynamic(() => import('../components/header/sidebarHeader'), { ssr: false })
+const StickyHeader = dynamic(() => import('../components/header/stickyHeader'), { ssr: false })
 const CreatePortfolio = dynamic(() => import('../components/section/createPortfolioSection'), { ssr: false })
 
 export default function Create() {
