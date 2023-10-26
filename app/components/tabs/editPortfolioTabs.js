@@ -27,7 +27,7 @@ export default function EditPortfolioTabs(props) {
     ),
     Contact: (
       <>
-          <EditContactForm />
+          <EditContactForm id={props.id}/>
       </>
     ),
   };
