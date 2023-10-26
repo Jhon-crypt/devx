@@ -55,13 +55,15 @@ export default function CreatePortfolio() {
 
             }
 
-            console.log(create_portfolio_data);
-
             setLoading(false);
 
         } catch (error) {
 
-           
+            setError(true)
+
+            setStatus(false)
+
+            setLoading(false)
 
         }
 
@@ -136,7 +138,6 @@ export default function CreatePortfolio() {
 
                             </form>
                         </div>
-                        {/*<!--end of second section -->*/}
                     </div>
                 </div>
             </section>
