@@ -1,7 +1,9 @@
 'use client'
-import HomeSection from "../components/section/HomeSection"
-import SidebarHeader from "../components/header/sidebarHeader"
-import StickyHeader from "../components/header/stickyHeader"
+import dynamic from 'next/dynamic';
+const HomeSection = dynamic(() => import('../components/section/HomeSection'), { ssr: false })
+const SidebarHeader = dynamic(() => import('../components/header/sidebarHeader'), { ssr: false })
+const StickyHeader = dynamic(() => import('../components/header/stickyHeader'), { ssr: false })
+
 
 export default function Home() {
 
