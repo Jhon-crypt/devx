@@ -1,7 +1,6 @@
-import dynamic from 'next/dynamic';
+import HomeSection from "../components/section/HomeSection"
 import SidebarHeader from "../components/header/sidebarHeader"
 import StickyHeader from "../components/header/stickyHeader"
-const HomeSection = dynamic(() => import('../components/section/HomeSection'), { ssr: true })
 
 export default function Home() {
 
