@@ -34,6 +34,8 @@ export async function GET(req) {
 
     } catch (error) {
 
+        const error_message  = "Error while fetching portfolio, try again by refreshing your browser"
+
         return NextResponse.json({ error: error_message})
 
     }
