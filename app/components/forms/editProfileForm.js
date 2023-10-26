@@ -207,12 +207,8 @@ export default function ProfileForm(props) {
                     {status ?
                         <>
 
-                            <div className="alert alert-success  mb-3 p-2 text-sm">
-                                <svg xmlns="http://www.w3.org/2000/svg" className="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                            <div onClick={deleteAlert} className="alert alert-success  mb-3 p-2 text-sm">
                                 <span>Name updated</span>
-                                <div>
-                                    <svg onClick={deleteAlert} xmlns="http://www.w3.org/2000/svg" className="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-                                </div>
                             </div>
                         </>
                         :
@@ -222,12 +218,8 @@ export default function ProfileForm(props) {
                     {error ?
 
                         <>
-                            <div className="alert alert-error  mb-3 p-2 text-sm">
-                                <svg xmlns="http://www.w3.org/2000/svg" className="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                            <div onClick={deleteErrorAlert} className="alert alert-error  mb-3 p-2 text-sm">
                                 <span>Error!</span>
-                                <div>
-                                    <svg onClick={deleteErrorAlert} xmlns="http://www.w3.org/2000/svg" className="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-                                </div>
                             </div>
                         </>
                         :
@@ -254,17 +246,7 @@ export default function ProfileForm(props) {
                     }
                 </form>
             </div>
-
-            <hr />
-
-            <div class="relative mb-4">
-                <label for="name" class="leading-7 text-sm text-gray-600">Display picture</label>
-                <input type="file" className="mb-3 file-input file-input-bordered file-input-sm w-full max-w-xs" />
-                <button class="bg-white border border-indigo-500 text-indigo-500 rounded-md px-2 py-1 text-sm hover:bg-indigo-500 hover:text-white hover:border-indigo-600 focus:outline-none focus:ring focus:ring-indigo-200">
-                    Update display picture
-                </button>
-            </div>
-
+            
             <hr />
 
             <div class="relative mb-4">
@@ -282,12 +264,8 @@ export default function ProfileForm(props) {
                     {updateTitleStatus ?
                         <>
 
-                            <div className="alert alert-success  mb-3 p-2 text-sm">
-                                <svg xmlns="http://www.w3.org/2000/svg" className="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                            <div onClick={deleteTitleAlert} className="alert alert-success  mb-3 p-2 text-sm">
                                 <span>Title updated</span>
-                                <div>
-                                    <svg onClick={deleteTitleAlert} xmlns="http://www.w3.org/2000/svg" className="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-                                </div>
                             </div>
                         </>
                         :
@@ -297,12 +275,8 @@ export default function ProfileForm(props) {
                     {updateTitleError ?
 
                         <>
-                            <div className="alert alert-error  mb-3 p-2 text-sm">
-                                <svg xmlns="http://www.w3.org/2000/svg" className="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                            <div onClick={deleteTitleErrorAlert} className="alert alert-error  mb-3 p-2 text-sm">
                                 <span>Error!</span>
-                                <div>
-                                    <svg onClick={deleteTitleErrorAlert} xmlns="http://www.w3.org/2000/svg" className="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-                                </div>
                             </div>
                         </>
                         :
@@ -345,12 +319,8 @@ export default function ProfileForm(props) {
                     {updateAboutStatus ?
                         <>
 
-                            <div className="alert alert-success  mb-3 p-2 text-sm">
-                                <svg xmlns="http://www.w3.org/2000/svg" className="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                            <div onClick={deleteAboutAlert} className="alert alert-success  mb-3 p-2 text-sm">
                                 <span>About updated</span>
-                                <div>
-                                    <svg onClick={deleteAboutAlert} xmlns="http://www.w3.org/2000/svg" className="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-                                </div>
                             </div>
                         </>
                         :
@@ -360,12 +330,8 @@ export default function ProfileForm(props) {
                     {updateAboutError ?
 
                         <>
-                            <div className="alert alert-error  mb-3 p-2 text-sm">
-                                <svg xmlns="http://www.w3.org/2000/svg" className="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                            <div onClick={deleteAboutErrorAlert} className="alert alert-error  mb-3 p-2 text-sm">
                                 <span>Error!</span>
-                                <div>
-                                    <svg onClick={deleteAboutErrorAlert} xmlns="http://www.w3.org/2000/svg" className="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-                                </div>
                             </div>
                         </>
                         :

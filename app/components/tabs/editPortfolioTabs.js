@@ -22,7 +22,7 @@ export default function EditPortfolioTabs(props) {
     ),
     Projects: (
       <>
-          <EditProjectForm />
+          <EditProjectForm id={props.id}/>
       </>
     ),
     Contact: (
