@@ -5,11 +5,6 @@ import { FaUserSecret } from "react-icons/fa";
 
 
 export default function Header(){
-  const navigation = [
-    "About",
-    "Login",
-    "Search",
-  ];
 
   return (
     <div className="w-full">
