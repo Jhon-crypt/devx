@@ -1,7 +1,7 @@
 'use client'
-
+import dynamic from 'next/dynamic';
 import Header from "../components/header/header"
-import HankoAuth from "../components/HankoAuth/HankoAuth"
+const HankoAuth = dynamic(() => import('../components/HankoAuth/HankoAuth'), { ssr: false })
 
 export default function Auth() {
 
