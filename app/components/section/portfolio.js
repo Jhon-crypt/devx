@@ -1,8 +1,61 @@
+'use-client'
 import { AiFillGithub, AiOutlineShareAlt, AiFillDelete, AiFillTwitterCircle, AiFillLinkedin, AiFillPhone } from "react-icons/ai";
 import { BiLogoGmail } from "react-icons/bi";
 import { BsCodeSlash } from "react-icons/bs"
+import { useState, useEffect } from 'react';
+import supabase from "@/app/supabase/supabase";
 
-export function Profile() {
+export function Profile(props) {
+
+    const [profileLoading, setProfileLoading] = useState(false)
+
+    const [username, setUsername] = useState("")
+    const [title, setTitle] = useState("")
+    const [about, setAbout] = useState("")
+
+    useEffect(() => {
+
+        setProfileLoading(true)
+
+        async function fetchProfile() {
+
+            try {
+
+                const { data: portfolio, error } = await supabase
+                    .from('portfolio')
+                    .select('*')
+                    .eq('portfolio_id', `${props.id}`)
+                    .single()
+                    
+
+                if (portfolio) {
+
+                    setUsername(portfolio.user_name)
+
+                    setTitle(portfolio.user_title)
+
+                    setAbout(portfolio.user_about)
+
+                    setProfileLoading(false)
+
+                } else if (error) {
+
+                    setProfileLoading(false)
+
+                }
+
+            } catch (error) {
+
+                setProfileLoading(false)
+
+            }
+
+        }
+
+        fetchProfile()
+
+    }, [])
+
 
     return (
 
@@ -18,9 +71,21 @@ export function Profile() {
                     </div>
 
                 </div>
-                <h1 class="text-lg text-gray-700"> Oladele John </h1>
-                <h3 class="text-sm text-gray-400 "> Front-end Developer </h3>
-                <p class="text-xs text-gray-400 mt-4"> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. </p>
+                {profileLoading ?
+                    <>
+                        <div className="flex justify-center mb-2">
+                            <span className="loading loading-spinner loading-md"></span>
+                        </div>
+                    </>
+                    :
+                    <>
+                        <h1 class="text-lg text-gray-700"> {username} </h1>
+                        <h3 class="text-sm text-gray-400 "> {title} </h3>
+                        <p class="text-xs text-gray-400 mt-4"> {about}</p>
+                    </>
+                }
+
+
             </div>
 
         </>

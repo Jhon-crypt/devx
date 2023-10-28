@@ -32,8 +32,8 @@ export default function ProfileForm(props) {
 
             const { data, error } = await supabase
                 .from('portfolio')
-                .update({ ["user-name"]: `${update_name_data.updated_name}` })
-                .eq('portfolio-id', `${props.id}`)
+                .update({ ["user_name"]: `${update_name_data.updated_name}` })
+                .eq('portfolio_id', `${props.id}`)
                 .select()
 
             if (error) {
@@ -78,8 +78,8 @@ export default function ProfileForm(props) {
 
             const { data, error } = await supabase
                 .from('portfolio')
-                .update({ ["user-title"]: `${update_title_data.updated_title}` })
-                .eq('portfolio-id', `${props.id}`)
+                .update({ ["user_title"]: `${update_title_data.updated_title}` })
+                .eq('portfolio_id', `${props.id}`)
                 .select()
 
             if (error) {
@@ -122,8 +122,8 @@ export default function ProfileForm(props) {
 
             const { data, error } = await supabase
                 .from('portfolio')
-                .update({ ["user-about"]: `${update_about_data.updated_about}` })
-                .eq('portfolio-id', `${props.id}`)
+                .update({ ["user_about"]: `${update_about_data.updated_about}` })
+                .eq('portfolio_id', `${props.id}`)
                 .select()
 
             if (error) {

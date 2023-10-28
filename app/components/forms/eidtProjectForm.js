@@ -29,10 +29,10 @@ export default function EditProjectForm(props) {
             const { error } = await supabase
                 .from('portfolio-projects')
                 .insert({
-                    "project-name": `${add_project_data.project_title}`,
-                    "project-link": `${add_project_data.project_link}`,
-                    "github-link": `${add_project_data.project_github}`,
-                    "portfolio-id": `${props.id}`
+                    "project_name": `${add_project_data.project_title}`,
+                    "project_link": `${add_project_data.project_link}`,
+                    "github_link": `${add_project_data.project_github}`,
+                    "portfolio_id": `${props.id}`
 
                 });
 

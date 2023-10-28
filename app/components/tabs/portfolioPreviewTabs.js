@@ -1,14 +1,14 @@
 import { useState } from 'react';
 import { Profile, Skills, Projects, Contact } from '../section/portfolio';
 
-export default function PortfolioPreviewTabs() {
+export default function PortfolioPreviewTabs(props) {
     const [activeTab, setActiveTab] = useState('Profile');
 
     const tabContent = {
         Profile: (
             <>
                 <br />
-                <Profile />
+                <Profile id={props.id} />
             </>
         ),
         Skills: (

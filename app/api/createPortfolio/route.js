@@ -22,8 +22,8 @@ export async function POST(req) {
             const { error } = await supabase
                 .from("portfolio-projects")
                 .insert({
-                    "user-id": `${user_id}`,
-                    "portfolio-id": `${portfolio_id}`
+                    "user_id": `${user_id}`,
+                    "portfolio_id": `${portfolio_id}`
                 });
     
         }
@@ -33,8 +33,8 @@ export async function POST(req) {
             const { error } = await supabase
                 .from("portfolio-skills")
                 .insert({
-                    "user-id": `${user_id}`,
-                    "portfolio-id": `${portfolio_id}`
+                    "user_id": `${user_id}`,
+                    "portfolio_id": `${portfolio_id}`
                 });
     
         }
@@ -44,8 +44,8 @@ export async function POST(req) {
             const { error } = await supabase
                 .from("portfolio-views")
                 .insert({
-                    "user-id": `${user_id}`,
-                    "portfolio-id": `${portfolio_id}`
+                    "user_id": `${user_id}`,
+                    "portfolio_id": `${portfolio_id}`
                 });
     
         }
@@ -55,8 +55,8 @@ export async function POST(req) {
             const { error } = await supabase
                 .from("project-contact")
                 .insert({
-                    "user-id": `${user_id}`,
-                    "portfolio-id": `${portfolio_id}`
+                    "user_id": `${user_id}`,
+                    "portfolio_id": `${portfolio_id}`
                 });
     
         }
@@ -67,8 +67,8 @@ export async function POST(req) {
             .from("portfolio")
             .insert({
                 name: `${portfolio_title}`,
-                "user-id": `${user_id}`,
-                "portfolio-id": `${portfolio_id}`
+                "user_id": `${user_id}`,
+                "portfolio_id": `${portfolio_id}`
             });
 
         if (error) {

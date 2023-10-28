@@ -25,7 +25,7 @@ export default function SkillsForm(props) {
                 const { data: skills, error } = await supabase
                     .from('portfolio-skills')
                     .select('*')
-                    .eq('portfolio-id', `${props.id}`)
+                    .eq('portfolio_id', `${props.id}`)
 
                 if (skills) {
 
@@ -91,7 +91,7 @@ export default function SkillsForm(props) {
                 .from('portfolio-skills')
                 .insert({
                     "skills_name": `${add_skills_data.add_skills}`,
-                    "portfolio-id": `${props.id}`
+                    "portfolio_id": `${props.id}`
                 });
 
             if (error) {
