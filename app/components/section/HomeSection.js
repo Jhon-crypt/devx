@@ -178,13 +178,13 @@ export default function HomeSection() {
                                             </div>
                                         </div>
                                         <div class="p-6 pt-3">
-                                            <button
+                                            <Link href={`/dev/${portfolio.portfolio_id}`}
                                                 class="block w-full select-none rounded-lg border border-indigo-500 py-3.5 px-7 text-center font-sans text-sm font-bold uppercase text-indigo-500 hover:bg-indigo-500 hover:text-white hover:shadow-md hover:shadow-indigo-500/40 transition-all focus:opacity-85 focus:shadow-none active:opacity-85 active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
                                                 type="button"
                                                 data-ripple-light="true"
                                             >
                                                 View Portfolio
-                                            </button>
+                                            </Link>
 
                                         </div>
                                     </div>
