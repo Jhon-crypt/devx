@@ -368,9 +368,9 @@ export function Contact(props) {
 
     useEffect(() => {
 
-        setContactLoading(true)
-
         async function fetchContacts() {
+
+            setContactLoading(true)
 
             try {
 

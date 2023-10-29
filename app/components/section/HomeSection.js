@@ -16,6 +16,10 @@ export default function HomeSection() {
 
     const [loading, setLoading] = useState(false)
 
+    const [deleteLoading, setDeleteLoading] = useState(false)
+    const [deleteStatus, setDeleteStatus] = useState(false)
+    const [deleteErrorStatus, setDeleteErrorStatus] = useState(false)
+
     useEffect(() => {
 
         async function fetchPortfolio() {
@@ -58,6 +62,46 @@ export default function HomeSection() {
         clipboardCopy(`https://devxx.vercel.app/portfolio/${id}`);
 
         alert("Link copied to clipboard")
+
+    }
+
+    const deleteSelectedPortfolio = async (id) => {
+
+        try {
+
+            setDeleteLoading(true)
+
+            const { error } = await supabase
+                .from('portfolio')
+                .delete()
+                .eq('portfolio_id', "6d45e510-1c48-401c-953d-2107d77425d5")
+
+            if (error) {
+
+                console.log(error)
+
+                setDeleteLoading(false)
+
+                setDeleteErrorStatus(true)
+
+            } else {
+
+                console.log("Deleted")
+
+                setDeleteLoading(false)
+                setDeleteStatus(true)
+
+                setPortfolio(portfolio.filter((x) => x.id != id))
+
+
+            }
+
+        } catch (error) {
+
+
+
+        }
+
 
     }
 
@@ -118,14 +162,16 @@ export default function HomeSection() {
                                                 </span>
                                                 <span class="cursor-pointer rounded-full border border-indigo-500/5 bg-indigo-500/5 p-3 text-indigo-500 transition-colors hover:border-indigo-500/10 hover:bg-indigo-500/10 hover:!opacity-100 group-hover:opacity-70"
                                                 >
-                                                    <Link href={`/editPortolio/${portfolio.portfolio_id}`}>
+                                                    <Link href={`/editPortfolio/${portfolio.portfolio_id}`}>
                                                         <BiSolidEdit class="h-5 w-5" />
                                                     </Link>
                                                 </span>
-                                                <span class="cursor-pointer rounded-full border border-indigo-500/5 bg-indigo-500/5 p-3 text-indigo-500 transition-colors hover:border-indigo-500/10 hover:bg-indigo-500/10 hover:!opacity-100 group-hover:opacity-70"
+                                                {/*Delete button
+                                                <span onClick={() => deleteSelectedPortfolio(portfolio.portfolio_id)} class="cursor-pointer rounded-full border border-indigo-500/5 bg-indigo-500/5 p-3 text-indigo-500 transition-colors hover:border-indigo-500/10 hover:bg-indigo-500/10 hover:!opacity-100 group-hover:opacity-70"
                                                 >
                                                     <AiFillDelete class="h-5 w-5" />
                                                 </span>
+                                                */}
 
 
 

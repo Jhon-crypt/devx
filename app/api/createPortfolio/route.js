@@ -83,7 +83,7 @@ export async function POST(req) {
             createPortfolioViews();
             createPortfolioContact();
 
-            return NextResponse.json({ status: 201 })
+            return NextResponse.json({ status: 201, id: portfolio_id })
 
         }
 

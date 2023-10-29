@@ -1,8 +1,11 @@
-"use client"
+'use client'
 import { Hanko } from "@teamhanko/hanko-elements";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 export default function CreatePortfolio() {
+
+    const router = useRouter();
 
     const [loading, setLoading] = useState(false);
     const [status, setStatus] = useState(false);
@@ -43,6 +46,9 @@ export default function CreatePortfolio() {
                 setError(false)
 
                 setLoading(false)
+
+                router.push(`/editPortfolio/${data.id}`);
+                router.refresh();
 
 
             } else {
@@ -91,7 +97,7 @@ export default function CreatePortfolio() {
                                             <svg xmlns="http://www.w3.org/2000/svg" className="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
                                             <span>Portfolio Created, chill while we redirect you</span>
                                         </div>
-                                    </> 
+                                    </>
 
                                     :
 
