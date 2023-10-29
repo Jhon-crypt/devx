@@ -3,6 +3,7 @@ import EditPortfolioTabs from '../../components/tabs/editPortfolioTabs.js'
 import { useState, useEffect } from 'react';
 import PortfolioPreviewTabs from '../tabs/portfolioPreviewTabs.js';
 import { AiFillQuestionCircle } from 'react-icons/ai'
+import PortfolioPreviewModal from '../modal/portfolioPreviewModal.js';
 
 export default function EditPortfolioSection(props) {
 
@@ -45,7 +46,7 @@ export default function EditPortfolioSection(props) {
                         <div class="mb-3 flex justify-between items-center">
                             <div className="flex items-center">
                                 <h2 className="text-gray-900 text-lg mb-1 font-medium title-font">Edit Portfolio</h2>
-                                <div className="tooltip" data-tip="Switch between the tabs on the left to see live chnges">
+                                <div className="tooltip" data-tip="Switch between the tabs on the left to see live changes">
                                     <AiFillQuestionCircle className="text-gray-500 ml-2" />
                                 </div>
                             </div>
@@ -54,9 +55,9 @@ export default function EditPortfolioSection(props) {
                                     Full preview
                                 </button>
                             ) : (
-                                <button class="bg-white border border-indigo-500 text-indigo-500 rounded-md px-2 py-1 text-sm hover:bg-indigo-500 hover:text-white hover:border-indigo-600 focus:outline-none focus:ring focus:ring-indigo-200">
+                                <label htmlFor="my_modal_6" class="bg-white border border-indigo-500 text-indigo-500 rounded-md px-2 py-1 text-sm hover:bg-indigo-500 hover:text-white hover:border-indigo-600 focus:outline-none focus:ring focus:ring-indigo-200">
                                     Preview
-                                </button>
+                                </label>
                             )}
                         </div>
 
@@ -67,6 +68,8 @@ export default function EditPortfolioSection(props) {
                     </div>
                 </div>
             </section>
+
+            <PortfolioPreviewModal id={props.id}/>
 
         </>
 

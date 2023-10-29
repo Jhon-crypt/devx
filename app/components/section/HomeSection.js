@@ -3,6 +3,8 @@ import { useState, useEffect } from "react"
 import { AiOutlineLink, AiFillDelete } from "react-icons/ai";
 import { BiSolidEdit } from "react-icons/bi";
 import { Hanko } from "@teamhanko/hanko-elements";
+import clipboardCopy from 'clipboard-copy';
+import Link from "next/link";
 
 export default function HomeSection() {
 
@@ -19,29 +21,29 @@ export default function HomeSection() {
         async function fetchPortfolio() {
             try {
 
-            const { id } = await hanko.user.getCurrent();
-            
-            setLoading(true)
+                const { id } = await hanko.user.getCurrent();
 
-            // Fetching portfolio data from the API endpoint
-            const response = await fetch(`/api/fetchAllPortfolio?user_id=${id}`)
+                setLoading(true)
 
-            // Parsing the response data as JSON
-            const data = await response.json()
+                // Fetching portfolio data from the API endpoint
+                const response = await fetch(`/api/fetchAllPortfolio?user_id=${id}`)
 
-            // If there are no portfolios, redirect to the Create page
-            if (data.portfolios.length === 0) {
-                window.location.href = '/Create';
-            }
+                // Parsing the response data as JSON
+                const data = await response.json()
 
-            // Setting the portfolio state variable to the portfolio data
-            setPortfolio(data.portfolios)
+                // If there are no portfolios, redirect to the Create page
+                if (data.portfolios.length === 0) {
+                    window.location.href = '/Create';
+                }
 
-            // Logging the portfolio data to the console
-            console.log(data.portfolios)
+                // Setting the portfolio state variable to the portfolio data
+                setPortfolio(data.portfolios)
 
-            // Setting the loading state variable to false
-            setLoading(false)
+                // Logging the portfolio data to the console
+                console.log(data.portfolios)
+
+                // Setting the loading state variable to false
+                setLoading(false)
             } catch (error) {
                 setLoading(false)
             }
@@ -51,23 +53,32 @@ export default function HomeSection() {
         fetchPortfolio()
     }, [])
 
+    const copyToClipBoard = async (id) => {
+
+        clipboardCopy(`https://devxx.vercel.app/portfolio/${id}`);
+
+        alert("Link copied to clipboard")
+
+    }
+
+
     return (
 
         <>
             {/*} Conditional rendering based on the value of the loading state variable{*/}
             {loading ?
-                
+
                 <>
                     {/*}If loading is true, render a loading spinner{*/}
                     <div className="flex justify-center mt-20">
                         <span className="loading loading-spinner loading-lg"></span>
-                    </div>  
+                    </div>
 
                 </>
                 :
                 <>
                     {/*}If loading is false, render the portfolio items{*/}
-                
+
                     <div class="px-6 pt-6 2xl:container">
 
                         <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
@@ -80,7 +91,7 @@ export default function HomeSection() {
                                             <div className="h-40">
 
                                                 <img
-                                                    src="/img/code.svg"
+                                                    src="/img/code2.svg"
                                                     alt="ui/ux review check"
                                                     class="object-cover w-full h-full"
                                                 />
@@ -95,19 +106,21 @@ export default function HomeSection() {
                                                 <h5 class="block font-sans text-xl font-medium leading-snug tracking-normal text-blue-gray-900 antialiased">
                                                     {portfolio.name}
                                                 </h5>
-                                                
-                                                
+
+
                                             </div>
 
                                             <div class="group mt-8 inline-flex flex-wrap items-center gap-3">
-                                                
-                                                <span class="cursor-pointer rounded-full border border-indigo-500/5 bg-indigo-500/5 p-3 text-indigo-500 transition-colors hover:border-indigo-500/10 hover:bg-indigo-500/10 hover:!opacity-100 group-hover:opacity-70"
+
+                                                <span onClick={() => copyToClipBoard(portfolio.portfolio_id)} class="cursor-pointer rounded-full border border-indigo-500/5 bg-indigo-500/5 p-3 text-indigo-500 transition-colors hover:border-indigo-500/10 hover:bg-indigo-500/10 hover:!opacity-100 group-hover:opacity-70"
                                                 >
                                                     <AiOutlineLink class="h-5 w-5" />
                                                 </span>
                                                 <span class="cursor-pointer rounded-full border border-indigo-500/5 bg-indigo-500/5 p-3 text-indigo-500 transition-colors hover:border-indigo-500/10 hover:bg-indigo-500/10 hover:!opacity-100 group-hover:opacity-70"
                                                 >
-                                                    <BiSolidEdit class="h-5 w-5" />
+                                                    <Link href={`/editPortolio/${portfolio.portfolio_id}`}>
+                                                        <BiSolidEdit class="h-5 w-5" />
+                                                    </Link>
                                                 </span>
                                                 <span class="cursor-pointer rounded-full border border-indigo-500/5 bg-indigo-500/5 p-3 text-indigo-500 transition-colors hover:border-indigo-500/10 hover:bg-indigo-500/10 hover:!opacity-100 group-hover:opacity-70"
                                                 >

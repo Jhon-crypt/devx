@@ -137,27 +137,7 @@ export function Skills(props) {
 
     }, [])
 
-    useEffect(() => {
 
-        const skillsListener = supabase
-            .channel('any')
-            .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'portfolio-skills' }, payload => {
-                const newSkill = payload.new;
-                setprofile_skills((oldSkill) => {
-                    const newSkills = [...oldSkill, newSkill];
-                    newSkills.sort((a, b) => b.id - a.id);
-                    return newSkills;
-                });
-            })
-            .subscribe()
-
-        return () => {
-
-            supabase.removeChannel(skillsListener)
-
-        };
-
-    }, [])
 
     return (
 
@@ -324,13 +304,13 @@ export function Projects(props) {
                         <>
                             {project.map((projects) => (
                                 <>
-                                    <div class="relative flex w-full flex-col rounded-xl bg-clip-border text-gray-700 shadow-lg shadow sm:shadow-md md:shadow-lg lg:shadow-xl xl:shadow-2xl">
+                                    <div class="relative flex w-full flex-col rounded-xl bg-clip-border text-gray-700">
                                         <div class="relative mx-4 mt-4 overflow-hidden rounded-xl bg-blue-gray-500 bg-clip-border text-white ">
                                             <div class="h-32">
                                                 <img
                                                     src="/img/code2.svg"
                                                     alt="ui/ux review check"
-                                                    class="object-cover w-full h-full"
+                                                    class=" object-cover w-25 h-full"
                                                 />
                                             </div>
                                         </div>
@@ -341,26 +321,25 @@ export function Projects(props) {
                                                 </h5>
 
                                             </div>
-                                            <div class="group mt-4 inline-flex flex-wrap items-center gap-2">
-                                                <span class="cursor-pointer rounded-full border border-indigo-500/5 bg-indigo-500/5 p-3 text-indigo-500 transition-colors hover:border-indigo-500/10 hover:bg-indigo-500/10 hover:!opacity-100 group-hover:opacity-70"
-                                                >
+                                            <div class="mt-4 flex flex-wrap items-center gap-2">
+                                                <span class="cursor-pointer rounded-full bg-indigo-500/5 p-3 text-indigo-500 transition-colors hover:border-indigo-500/10 hover:bg-indigo-500/10 hover:!opacity-100 group-hover:opacity-70">
                                                     <a href={`https://${projects.github_link}`} target="_blank">
                                                         <AiFillGithub class="h-5 w-5" />
                                                     </a>
                                                 </span>
-                                                <span class="cursor-pointer rounded-full border border-indigo-500/5 bg-indigo-500/5 p-3 text-indigo-500 transition-colors hover:border-indigo-500/10 hover:bg-indigo-500/10 hover:!opacity-100 group-hover:opacity-70"
-                                                >
+                                                <span class="cursor-pointer rounded-full bg-indigo-500/5 p-3 text-indigo-500 transition-colors hover:border-indigo-500/10 hover:bg-indigo-500/10 hover:!opacity-100 group-hover:opacity-70">
                                                     <a href={`https://www.example.com/${projects.project_link}`} target="_blank">
                                                         <AiOutlineLink class="h-5 w-5" />
                                                     </a>
                                                 </span>
-                                                <span onClick={() => deleteProject(projects.id)} class="cursor-pointer rounded-full border border-indigo-500/5 bg-indigo-500/5 p-3 text-indigo-500 transition-colors hover:border-indigo-500/10 hover:bg-indigo-500/10 hover:!opacity-100 group-hover:opacity-70"
-                                                >
+                                                <span onClick={() => deleteProject(projects.id)} class="cursor-pointer rounded-full bg-indigo-500/5 p-3 text-indigo-500 transition-colors hover:border-indigo-500/10 hover:bg-indigo-500/10 hover:!opacity-100 group-hover:opacity-70">
                                                     <AiFillDelete class="h-5 w-5" />
                                                 </span>
                                             </div>
+
                                         </div>
                                     </div>
+                                    <hr style={{ width: "160px"}} />
                                     <br />
 
                                 </>
@@ -389,11 +368,11 @@ export function Contact(props) {
 
     useEffect(() => {
 
-        setContactLoading()
+        setContactLoading(true)
 
-        async function fetchContacts(){
+        async function fetchContacts() {
 
-            try{
+            try {
 
                 const { data: contact, error } = await supabase
                     .from('project-contact')
@@ -401,7 +380,7 @@ export function Contact(props) {
                     .eq('portfolio_id', `${props.id}`)
                     .single()
 
-                if(contact){
+                if (contact) {
 
                     setMail(contact.email_link)
 
@@ -411,20 +390,22 @@ export function Contact(props) {
 
                     setPhoneNumber(contact.phone_number)
 
+                    setContactLoading(false)
+
                 }
 
-            }catch(error){
+            } catch (error) {
 
-
+                setContactLoading(false)
 
             }
 
         }
 
         fetchContacts()
-      
+
     }, [])
-    
+
 
     return (
 
@@ -432,28 +413,45 @@ export function Contact(props) {
 
             <div class="bg-white font-semibold text-center rounded-3xl border shadow-lg p-10 max-w-xs">
                 <h1 class="text-lg text-gray-700"> Contact </h1>
-                <ul className="menu bg-base-200 lg:menu-horizontal rounded-box">
-                    <li>
-                        <a href={`mailto:${mail}`} target="_blank">
-                            <BiLogoGmail className="h-5 w-5" />
+                {contactLoading ?
+                    <>
+                        <div className="flex justify-center mb-2">
+                            <span className="loading loading-spinner loading-xm"></span>
+                        </div>
+                    </>
+                    :
+                    <>
 
-                        </a>
-                    </li>
-                    <li>
-                        <a href={`https://${x}`} target="_blank">
-                            <AiFillTwitterCircle className="h-5 w-5" />
+                        <ul className="menu bg-base-200 lg:menu-horizontal rounded-box">
+                            <li>
+                                <a href={`mailto:${mail}`} target="_blank">
+                                    <BiLogoGmail className="h-5 w-5" />
 
-                        </a>
-                    </li>
-                    <li>
-                        <a href={`https://${linkedIn}`} target="_blank">
-                            <AiFillLinkedin className="h-5 w-5" />
-                        </a>
-                    </li>
-                </ul>
-                <ul className="mt-3 menu bg-base-200 w-56 rounded-box">
-                    <li align="center"><a><AiFillPhone className="h-5 w-5" />{phoneNumber}</a></li>
-                </ul>
+                                </a>
+                            </li>
+                            <li>
+                                <a href={`https://${x}`} target="_blank">
+                                    <AiFillTwitterCircle className="h-5 w-5" />
+
+                                </a>
+                            </li>
+                            <li>
+                                <a href={`https://${linkedIn}`} target="_blank">
+                                    <AiFillLinkedin className="h-5 w-5" />
+                                </a>
+                            </li>
+                        </ul>
+                        <ul className="mt-3 menu lg:menu-horizontal bg-base-200 rounded-box">
+                            <li>
+                                <a href={`tel:${phoneNumber}`} target="_blank">
+                                    <AiFillPhone className="h-5" />Phone
+                                </a>
+                            </li>
+                        </ul>
+
+                    </>
+                }
+
             </div>
 
         </>
