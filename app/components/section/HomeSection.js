@@ -30,7 +30,7 @@ export default function HomeSection() {
                 setLoading(true)
 
                 // Fetching portfolio data from the API endpoint
-                const response = await fetch(`https://devxx.vercel.app/api/fetchAllPortfolio?user_id=${id}`)
+                const response = await fetch(`/api/fetchAllPortfolio?user_id=${id}`)
 
                 // Parsing the response data as JSON
                 const data = await response.json()
