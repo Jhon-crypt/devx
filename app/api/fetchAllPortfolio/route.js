@@ -18,7 +18,7 @@ export async function GET(req) {
         let { data: portfolio, error } = await supabase
             .from('portfolio')
             .select('*')
-            .eq("user-id", `${user_id}`) 
+            .eq("user_id", `${user_id}`) 
 
         if(error){
 

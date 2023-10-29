@@ -1,5 +1,5 @@
 'use-client'
-import { AiFillGithub, AiOutlineShareAlt, AiFillDelete, AiFillTwitterCircle, AiFillLinkedin, AiFillPhone } from "react-icons/ai";
+import { AiFillGithub, AiOutlineLink, AiFillDelete, AiFillTwitterCircle, AiFillLinkedin, AiFillPhone } from "react-icons/ai";
 import { BiLogoGmail } from "react-icons/bi";
 import { BsCodeSlash } from "react-icons/bs"
 import { useState, useEffect } from 'react';
@@ -26,7 +26,7 @@ export function Profile(props) {
                     .select('*')
                     .eq('portfolio_id', `${props.id}`)
                     .single()
-                    
+
 
                 if (portfolio) {
 
@@ -94,23 +94,100 @@ export function Profile(props) {
 
 }
 
-export function Skills() {
+export function Skills(props) {
+
+    const [profile_skills, setprofile_skills] = useState([]);
+    const [skillsLoading, setSkillsLoading] = useState(false);
+
+
+    useEffect(() => {
+
+        setSkillsLoading(true)
+
+        async function fetchSkills() {
+
+            try {
+
+                const { data: skills, error } = await supabase
+                    .from('portfolio-skills')
+                    .select('*')
+                    .eq('portfolio_id', `${props.id}`)
+
+                if (skills) {
+
+                    setprofile_skills(skills)
+
+                    setSkillsLoading(false)
+
+                } else if (error) {
+
+                    setSkillsLoading(false)
+
+                }
+
+            } catch (error) {
+
+                setSkillsLoading(false)
+
+            }
+
+        }
+
+        fetchSkills()
+
+    }, [])
+
+    useEffect(() => {
+
+        const skillsListener = supabase
+            .channel('any')
+            .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'portfolio-skills' }, payload => {
+                const newSkill = payload.new;
+                setprofile_skills((oldSkill) => {
+                    const newSkills = [...oldSkill, newSkill];
+                    newSkills.sort((a, b) => b.id - a.id);
+                    return newSkills;
+                });
+            })
+            .subscribe()
+
+        return () => {
+
+            supabase.removeChannel(skillsListener)
+
+        };
+
+    }, [])
+
     return (
 
         <>
 
             <div class="bg-white font-semibold text-center rounded-3xl border shadow-lg p-10 max-w-xs">
                 <h1 class="text-lg text-gray-700"> Skills </h1>
-                <ul className="menu bg-base-200  rounded-box overflow-x-auto max-h-[10rem]" style={{ height: "auto", maxHeight: "20px;", overflow: "auto;" }}>
-                    <li><a>Php</a></li>
-                    <li><a>NextJs</a></li>
-                    <li><a>React</a></li>
-                    <li><a>Supabase</a></li>
-                    <li><a>Php</a></li>
-                    <li><a>NextJs</a></li>
-                    <li><a>React</a></li>
-                    <li><a>Supabase</a></li>
-                </ul>
+                {skillsLoading ?
+                    <>
+                        <div className="flex justify-center mb-2">
+                            <span className="loading loading-spinner loading-md"></span>
+                        </div>
+                    </>
+                    :
+                    <>
+                        <ul className="menu bg-base-200  rounded-box overflow-x-auto max-h-[10rem]" style={{ height: "auto", maxHeight: "20px;", overflow: "auto;" }}>
+                            {profile_skills.map((skills) => (
+                                <>
+                                    <li><a>
+                                        <div className="badge badge-outline gap-2">
+                                            {skills.skills_name}
+                                        </div>
+                                    </a></li>
+                                </>
+                            ))}
+                        </ul>
+                    </>
+                }
+
+
 
             </div>
 
@@ -120,101 +197,176 @@ export function Skills() {
 
 }
 
-export function Projects() {
+export function Projects(props) {
+
+    const [project, setProjects] = useState([]);
+    const [projectLoading, setProjectLoading] = useState(false);
+    const [deleteLoading, setDeleteLoading] = useState(false)
+
+    useEffect(() => {
+
+        async function fetchProjects() {
+
+            try {
+
+                setProjectLoading(true)
+
+                const { data: projects, error } = await supabase
+                    .from('portfolio-projects')
+                    .select('*')
+                    .eq('portfolio_id', `${props.id}`)
+
+                if (projects) {
+
+                    setProjects(projects)
+
+                    setProjectLoading(false)
+
+                } else {
+
+                    setProjectLoading(false)
+
+                }
+
+
+            } catch (error) {
+
+                setProjectLoading(false)
+
+            }
+
+        }
+
+        fetchProjects()
+
+    }, [])
+
+    useEffect(() => {
+
+        const projectListener = supabase
+            .channel('any')
+            .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'portfolio-projects' }, payload => {
+                const newProject = payload.new;
+                setProjects((oldProject) => {
+                    const newProjects = [...oldProject, newProject];
+                    newProjects.sort((a, b) => b.id - a.id);
+                    return newProjects;
+                });
+            })
+            .subscribe()
+
+        return () => {
+
+            supabase.removeChannel(projectListener)
+
+        };
+
+    }, [])
+
+    const deleteProject = async (id) => {
+
+        try {
+
+            setDeleteLoading(true)
+
+            const { error } = await supabase
+                .from('portfolio-projects')
+                .delete()
+                .eq('id', `${id}`)
+
+            if (error) {
+
+                setDeleteLoading(false)
+
+            } else {
+
+                setDeleteLoading(false)
+
+                setProjects(project.filter((x) => x.id != id))
+
+            }
+
+        } catch (error) {
+
+            console.log(error)
+
+        }
+
+    }
 
     return (
+
+
 
         <>
 
             <div class="bg-white font-semibold text-center rounded-3xl border shadow-lg p-10 max-w-xs">
 
                 <div class="w-60 overflow-x-auto max-h-[18rem]" style={{ height: "auto", maxHeight: "20px;", overflow: "auto;" }}>
+                    {deleteLoading ?
+                        <>
+                            <div className="flex justify-center mb-2">
+                                <span className="loading loading-spinner loading-xm"></span> Deleting
+                            </div>
+                        </>
+                        :
+                        <>
 
-                    <div class="relative flex w-full flex-col rounded-xl bg-white bg-clip-border text-gray-700 shadow-lg">
-                        <div class="relative mx-4 mt-4 overflow-hidden rounded-xl bg-blue-gray-500 bg-clip-border text-white shadow-lg shadow-blue-gray-500/40">
-                            <div class="h-32">
-                                <img
-                                    src="/img/dev1.svg"
-                                    alt="ui/ux review check"
-                                    class="object-cover w-full h-full"
-                                />
+                        </>
+                    }
+                    {projectLoading ?
+                        <>
+                            <div className="flex justify-center mb-2">
+                                <span className="loading loading-spinner loading-xm"></span>
                             </div>
-                        </div>
-                        <div class="p-4">
-                            <div class="mb-2 flex items-center justify-between">
-                                <h5 class="block font-sans text-lg font-medium leading-snug tracking-normal text-blue-gray-900 antialiased">
-                                    SkyDrop
-                                </h5>
-                            </div>
-                            <div class="group mt-4 inline-flex flex-wrap items-center gap-2">
-                                <span class="cursor-pointer rounded-full border border-indigo-500/5 bg-indigo-500/5 p-3 text-indigo-500 transition-colors hover:border-indigo-500/10 hover:bg-indigo-500/10 hover:!opacity-100 group-hover:opacity-70"
-                                >
-                                    <AiFillGithub class="h-5 w-5" />
-                                </span>
-                                <span class="cursor-pointer rounded-full border border-indigo-500/5 bg-indigo-500/5 p-3 text-indigo-500 transition-colors hover:border-indigo-500/10 hover:bg-indigo-500/10 hover:!opacity-100 group-hover:opacity-70"
-                                >
-                                    <AiOutlineShareAlt class="h-5 w-5" />
-                                </span>
-                                <span class="cursor-pointer rounded-full border border-indigo-500/5 bg-indigo-500/5 p-3 text-indigo-500 transition-colors hover:border-indigo-500/10 hover:bg-indigo-500/10 hover:!opacity-100 group-hover:opacity-70"
-                                >
-                                    <AiFillDelete class="h-5 w-5" />
-                                </span>
-                            </div>
-                        </div>
-                        <div class="p-4 pt-2">
-                            <button
-                                class="block w-full select-none rounded-lg border border-indigo-500 py-2.5 px-5 text-center font-sans text-sm font-bold uppercase text-indigo-500 hover:bg-indigo-500 hover:text-white hover:shadow-md hover:shadow-indigo-500/40 transition-all focus:opacity-85 focus:shadow-none active:opacity-85 active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
-                                type="button"
-                                data-ripple-light="true"
-                            >
-                                View Project
-                            </button>
-                        </div>
-                    </div>
+                        </>
+                        :
+                        <>
+                            {project.map((projects) => (
+                                <>
+                                    <div class="relative flex w-full flex-col rounded-xl bg-clip-border text-gray-700 shadow-lg shadow sm:shadow-md md:shadow-lg lg:shadow-xl xl:shadow-2xl">
+                                        <div class="relative mx-4 mt-4 overflow-hidden rounded-xl bg-blue-gray-500 bg-clip-border text-white ">
+                                            <div class="h-32">
+                                                <img
+                                                    src="/img/code2.svg"
+                                                    alt="ui/ux review check"
+                                                    class="object-cover w-full h-full"
+                                                />
+                                            </div>
+                                        </div>
+                                        <div class="p-4">
+                                            <div class="mb-2 flex items-center justify-between">
+                                                <h5 class="block font-sans text-lg font-medium leading-snug tracking-normal text-blue-gray-900 antialiased">
+                                                    {projects.project_name}
+                                                </h5>
 
-                    <hr />
+                                            </div>
+                                            <div class="group mt-4 inline-flex flex-wrap items-center gap-2">
+                                                <span class="cursor-pointer rounded-full border border-indigo-500/5 bg-indigo-500/5 p-3 text-indigo-500 transition-colors hover:border-indigo-500/10 hover:bg-indigo-500/10 hover:!opacity-100 group-hover:opacity-70"
+                                                >
+                                                    <a href={`https://${projects.github_link}`} target="_blank">
+                                                        <AiFillGithub class="h-5 w-5" />
+                                                    </a>
+                                                </span>
+                                                <span class="cursor-pointer rounded-full border border-indigo-500/5 bg-indigo-500/5 p-3 text-indigo-500 transition-colors hover:border-indigo-500/10 hover:bg-indigo-500/10 hover:!opacity-100 group-hover:opacity-70"
+                                                >
+                                                    <a href={`https://www.example.com/${projects.project_link}`} target="_blank">
+                                                        <AiOutlineLink class="h-5 w-5" />
+                                                    </a>
+                                                </span>
+                                                <span onClick={() => deleteProject(projects.id)} class="cursor-pointer rounded-full border border-indigo-500/5 bg-indigo-500/5 p-3 text-indigo-500 transition-colors hover:border-indigo-500/10 hover:bg-indigo-500/10 hover:!opacity-100 group-hover:opacity-70"
+                                                >
+                                                    <AiFillDelete class="h-5 w-5" />
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <br />
 
-                    <div class="relative flex w-full max-w-[18rem] flex-col rounded-xl bg-white bg-clip-border text-gray-700 shadow-lg">
-                        <div class="relative mx-4 mt-4 overflow-hidden rounded-xl bg-blue-gray-500 bg-clip-border text-white shadow-lg shadow-blue-gray-500/40">
-                            <div class="h-32">
-                                <img
-                                    src="/img/dev1.svg"
-                                    alt="ui/ux review check"
-                                    class="object-cover w-full h-full"
-                                />
-                            </div>
-                        </div>
-                        <div class="p-4">
-                            <div class="mb-2 flex items-center justify-between">
-                                <h5 class="block font-sans text-lg font-medium leading-snug tracking-normal text-blue-gray-900 antialiased">
-                                    Edustack
-                                </h5>
-                            </div>
-                            <div class="group mt-4 inline-flex flex-wrap items-center gap-2">
-                                <span class="cursor-pointer rounded-full border border-indigo-500/5 bg-indigo-500/5 p-3 text-indigo-500 transition-colors hover:border-indigo-500/10 hover:bg-indigo-500/10 hover:!opacity-100 group-hover:opacity-70"
-                                >
-                                    <AiFillGithub class="h-5 w-5" />
-                                </span>
-                                <span class="cursor-pointer rounded-full border border-indigo-500/5 bg-indigo-500/5 p-3 text-indigo-500 transition-colors hover:border-indigo-500/10 hover:bg-indigo-500/10 hover:!opacity-100 group-hover:opacity-70"
-                                >
-                                    <AiOutlineShareAlt class="h-5 w-5" />
-                                </span>
-                                <span class="cursor-pointer rounded-full border border-indigo-500/5 bg-indigo-500/5 p-3 text-indigo-500 transition-colors hover:border-indigo-500/10 hover:bg-indigo-500/10 hover:!opacity-100 group-hover:opacity-70"
-                                >
-                                    <AiFillDelete class="h-5 w-5" />
-                                </span>
-                            </div>
-                        </div>
-                        <div class="p-4 pt-2">
-                            <button
-                                class="block w-full select-none rounded-lg border border-indigo-500 py-2.5 px-5 text-center font-sans text-sm font-bold uppercase text-indigo-500 hover:bg-indigo-500 hover:text-white hover:shadow-md hover:shadow-indigo-500/40 transition-all focus:opacity-85 focus:shadow-none active:opacity-85 active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
-                                type="button"
-                                data-ripple-light="true"
-                            >
-                                View Project
-                            </button>
-                        </div>
-                    </div>
+                                </>
+                            ))}
+                        </>
+                    }
 
                 </div>
             </div>
@@ -226,7 +378,53 @@ export function Projects() {
 
 }
 
-export function Contact() {
+export function Contact(props) {
+
+    const [contactLoading, setContactLoading] = useState(false)
+
+    const [mail, setMail] = useState("")
+    const [x, setX] = useState("")
+    const [linkedIn, setLinkedIn] = useState("")
+    const [phoneNumber, setPhoneNumber] = useState("")
+
+    useEffect(() => {
+
+        setContactLoading()
+
+        async function fetchContacts(){
+
+            try{
+
+                const { data: contact, error } = await supabase
+                    .from('project-contact')
+                    .select('*')
+                    .eq('portfolio_id', `${props.id}`)
+                    .single()
+
+                if(contact){
+
+                    setMail(contact.email_link)
+
+                    setX(contact.x_link)
+
+                    setLinkedIn(contact.linkedin_link)
+
+                    setPhoneNumber(contact.phone_number)
+
+                }
+
+            }catch(error){
+
+
+
+            }
+
+        }
+
+        fetchContacts()
+      
+    }, [])
+    
 
     return (
 
@@ -236,25 +434,25 @@ export function Contact() {
                 <h1 class="text-lg text-gray-700"> Contact </h1>
                 <ul className="menu bg-base-200 lg:menu-horizontal rounded-box">
                     <li>
-                        <a>
+                        <a href={`mailto:${mail}`} target="_blank">
                             <BiLogoGmail className="h-5 w-5" />
 
                         </a>
                     </li>
                     <li>
-                        <a>
+                        <a href={`https://${x}`} target="_blank">
                             <AiFillTwitterCircle className="h-5 w-5" />
 
                         </a>
                     </li>
                     <li>
-                        <a>
+                        <a href={`https://${linkedIn}`} target="_blank">
                             <AiFillLinkedin className="h-5 w-5" />
                         </a>
                     </li>
                 </ul>
                 <ul className="mt-3 menu bg-base-200 w-56 rounded-box">
-                    <li align="center"><a><AiFillPhone className="h-5 w-5" /> 0*9********</a></li>
+                    <li align="center"><a><AiFillPhone className="h-5 w-5" />{phoneNumber}</a></li>
                 </ul>
             </div>
 

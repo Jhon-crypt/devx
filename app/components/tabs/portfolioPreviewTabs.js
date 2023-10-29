@@ -14,19 +14,19 @@ export default function PortfolioPreviewTabs(props) {
         Skills: (
             <>
                 <br />
-                <Skills />
+                <Skills id={props.id}/>
             </>
         ),
         Projects: (
             <>
                 <br />
-                <Projects />
+                <Projects id={props.id}/>
             </>
         ),
         Contact: (
             <>
                 <br />
-                <Contact />
+                <Contact id={props.id}/>
             </>
         ),
     };

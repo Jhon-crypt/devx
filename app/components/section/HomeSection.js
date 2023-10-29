@@ -1,10 +1,14 @@
 'use client'
 import { useState, useEffect } from "react"
-import { AiFillGithub, AiOutlineShareAlt, AiFillDelete } from "react-icons/ai";
-import { GrView } from "react-icons/gr";
+import { AiOutlineLink, AiFillDelete } from "react-icons/ai";
 import { BiSolidEdit } from "react-icons/bi";
+import { Hanko } from "@teamhanko/hanko-elements";
 
 export default function HomeSection() {
+
+    const hankoApi = process.env.NEXT_PUBLIC_HANKO_API_URL;
+    const hanko = new Hanko(hankoApi);
+
 
     const [portfolio, setPortfolio] = useState([])
 
@@ -14,11 +18,13 @@ export default function HomeSection() {
 
         async function fetchPortfolio() {
             try {
+
+            const { id } = await hanko.user.getCurrent();
             
             setLoading(true)
 
             // Fetching portfolio data from the API endpoint
-            const response = await fetch(`/api/fetchAllPortfolio?user_id=testin`)
+            const response = await fetch(`/api/fetchAllPortfolio?user_id=${id}`)
 
             // Parsing the response data as JSON
             const data = await response.json()
@@ -74,7 +80,7 @@ export default function HomeSection() {
                                             <div className="h-40">
 
                                                 <img
-                                                    src={`${portfolio["cover-image-link"]}`}
+                                                    src="/img/code.svg"
                                                     alt="ui/ux review check"
                                                     class="object-cover w-full h-full"
                                                 />
@@ -89,23 +95,15 @@ export default function HomeSection() {
                                                 <h5 class="block font-sans text-xl font-medium leading-snug tracking-normal text-blue-gray-900 antialiased">
                                                     {portfolio.name}
                                                 </h5>
-                                                <p class="flex items-center gap-1.5 font-sans text-base font-normal leading-relaxed text-blue-gray-900 antialiased">
-                                                    <GrView
-
-                                                        class="-mt-0.5 h-5 w-5 text-yellow-700"
-                                                    />
-                                                    100
-                                                </p>
+                                                
+                                                
                                             </div>
 
                                             <div class="group mt-8 inline-flex flex-wrap items-center gap-3">
+                                                
                                                 <span class="cursor-pointer rounded-full border border-indigo-500/5 bg-indigo-500/5 p-3 text-indigo-500 transition-colors hover:border-indigo-500/10 hover:bg-indigo-500/10 hover:!opacity-100 group-hover:opacity-70"
                                                 >
-                                                    <AiFillGithub class="h-5 w-5" />
-                                                </span>
-                                                <span class="cursor-pointer rounded-full border border-indigo-500/5 bg-indigo-500/5 p-3 text-indigo-500 transition-colors hover:border-indigo-500/10 hover:bg-indigo-500/10 hover:!opacity-100 group-hover:opacity-70"
-                                                >
-                                                    <AiOutlineShareAlt class="h-5 w-5" />
+                                                    <AiOutlineLink class="h-5 w-5" />
                                                 </span>
                                                 <span class="cursor-pointer rounded-full border border-indigo-500/5 bg-indigo-500/5 p-3 text-indigo-500 transition-colors hover:border-indigo-500/10 hover:bg-indigo-500/10 hover:!opacity-100 group-hover:opacity-70"
                                                 >
