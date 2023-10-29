@@ -30,7 +30,7 @@ export default function HomeSection() {
                 setLoading(true)
 
                 // Fetching portfolio data from the API endpoint
-                const response = await fetch(`/api/fetchAllPortfolio?user_id=${id}`)
+                const response = await fetch(`/api/fetchAllPortfolio?user_id=a3bfcca2-709a-40af-aae3-9879a963282e`)
 
                 // Parsing the response data as JSON
                 const data = await response.json()
@@ -38,16 +38,18 @@ export default function HomeSection() {
                 // If there are no portfolios, redirect to the Create page
                 if (data.portfolios.length === 0) {
                     window.location.href = '/Create';
+                } else {
+
+                    // Setting the portfolio state variable to the portfolio data
+                    setPortfolio(data.portfolios)
+
+                    // Logging the portfolio data to the console
+                    console.log(data.portfolios)
+
+                    // Setting the loading state variable to false
+                    setLoading(false)
+
                 }
-
-                // Setting the portfolio state variable to the portfolio data
-                setPortfolio(data.portfolios)
-
-                // Logging the portfolio data to the console
-                console.log(data.portfolios)
-
-                // Setting the loading state variable to false
-                setLoading(false)
             } catch (error) {
                 setLoading(false)
             }
