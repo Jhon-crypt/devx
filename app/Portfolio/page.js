@@ -1,5 +1,5 @@
 'use client'
-export const dynamic = "force-dynamic";
+export const dynamic = 'auto'
 const HomeSection = dynamic(() => import('../components/section/HomeSection'), { ssr: false })
 const SidebarHeader = dynamic(() => import('../components/header/sidebarHeader'), { ssr: false })
 const StickyHeader = dynamic(() => import('../components/header/stickyHeader'), { ssr: false })
