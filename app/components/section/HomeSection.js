@@ -5,6 +5,7 @@ import { Hanko } from "@teamhanko/hanko-elements";
 import clipboardCopy from 'clipboard-copy';
 import Link from "next/link";
 import { useState, useEffect } from 'react';
+import supabase from "@/app/supabase/supabase";
 
 
 {/*}
