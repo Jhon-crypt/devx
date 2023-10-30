@@ -7,54 +7,49 @@ import supabase from "@/app/supabase/supabase";
 
 export function Profile(props) {
 
-    const [profileLoading, setProfileLoading] = useState(false)
+    // Initialize state variables for profile loading and user data
+    const [profileLoading, setProfileLoading] = useState(false);
+    const [username, setUsername] = useState("");
+    const [title, setTitle] = useState("");
+    const [about, setAbout] = useState("");
 
-    const [username, setUsername] = useState("")
-    const [title, setTitle] = useState("")
-    const [about, setAbout] = useState("")
-
+    // Use the useEffect hook to fetch and load user profile data when the component mounts
     useEffect(() => {
+        // Set the profile loading state to true while fetching data
+        setProfileLoading(true);
 
-        setProfileLoading(true)
-
+        // Define an async function to fetch user profile data
         async function fetchProfile() {
-
             try {
-
+                // Fetch user profile data from Supabase
                 const { data: portfolio, error } = await supabase
                     .from('portfolio')
                     .select('*')
                     .eq('portfolio_id', `${props.id}`)
-                    .single()
-
+                    .single();
 
                 if (portfolio) {
+                    // If profile data is available, update the state variables with user data
+                    setUsername(portfolio.user_name);
+                    setTitle(portfolio.user_title);
+                    setAbout(portfolio.user_about);
 
-                    setUsername(portfolio.user_name)
-
-                    setTitle(portfolio.user_title)
-
-                    setAbout(portfolio.user_about)
-
-                    setProfileLoading(false)
-
+                    // Set the profile loading state to false after data is loaded
+                    setProfileLoading(false);
                 } else if (error) {
-
-                    setProfileLoading(false)
-
+                    // Handle any errors, if encountered
+                    setProfileLoading(false);
                 }
-
             } catch (error) {
-
-                setProfileLoading(false)
-
+                // Handle errors that occur during data fetching
+                setProfileLoading(false);
             }
-
         }
 
-        fetchProfile()
+        // Call the fetchProfile function when the component mounts
+        fetchProfile();
+    }, []);
 
-    }, [])
 
 
     return (
@@ -96,46 +91,44 @@ export function Profile(props) {
 
 export function Skills(props) {
 
+    // Initialize state variables for profile skills and loading state
     const [profile_skills, setprofile_skills] = useState([]);
     const [skillsLoading, setSkillsLoading] = useState(false);
 
-
+    // Use the useEffect hook to fetch and load user skills when the component mounts
     useEffect(() => {
+        // Set the skills loading state to true while fetching data
+        setSkillsLoading(true);
 
-        setSkillsLoading(true)
-
+        // Define an async function to fetch user skills data
         async function fetchSkills() {
-
             try {
-
+                // Fetch user skills data from an external source 
                 const { data: skills, error } = await supabase
                     .from('portfolio-skills')
                     .select('*')
-                    .eq('portfolio_id', `${props.id}`)
+                    .eq('portfolio_id', `${props.id}`);
 
                 if (skills) {
+                    // If skills data is available, update the state variable with user skills
+                    setprofile_skills(skills);
 
-                    setprofile_skills(skills)
-
-                    setSkillsLoading(false)
-
+                    // Set the skills loading state to false after data is loaded
+                    setSkillsLoading(false);
                 } else if (error) {
-
-                    setSkillsLoading(false)
-
+                    // Handle any errors, if encountered
+                    setSkillsLoading(false);
                 }
-
             } catch (error) {
-
-                setSkillsLoading(false)
-
+                // Handle errors that occur during data fetching
+                setSkillsLoading(false);
             }
-
         }
 
-        fetchSkills()
+        // Call the fetchSkills function when the component mounts 
+        fetchSkills();
+    }, []);
 
-    }, [])
 
 
 
@@ -179,100 +172,83 @@ export function Skills(props) {
 
 export function Projects(props) {
 
-    const [project, setProjects] = useState([]);
-    const [projectLoading, setProjectLoading] = useState(false);
-    const [deleteLoading, setDeleteLoading] = useState(false)
+    const [project, setProjects] = useState([]); // State to store the list of projects.
+    const [projectLoading, setProjectLoading] = useState(false); // State to track project loading status.
+    const [deleteLoading, setDeleteLoading] = useState(false); // State to track project deletion status.
 
     useEffect(() => {
+        // This useEffect is used to fetch projects when the component is mounted.
 
         async function fetchProjects() {
-
             try {
+                setProjectLoading(true); // Set project loading to true.
 
-                setProjectLoading(true)
-
+                // Fetch projects from a database (likely Supabase).
                 const { data: projects, error } = await supabase
                     .from('portfolio-projects')
                     .select('*')
-                    .eq('portfolio_id', `${props.id}`)
+                    .eq('portfolio_id', `${props.id}`);
 
                 if (projects) {
-
-                    setProjects(projects)
-
-                    setProjectLoading(false)
-
+                    setProjects(projects); // Update the state with fetched projects.
+                    setProjectLoading(false); // Set project loading back to false.
                 } else {
-
-                    setProjectLoading(false)
-
+                    setProjectLoading(false); // Set project loading to false on error.
                 }
-
-
             } catch (error) {
-
-                setProjectLoading(false)
-
+                setProjectLoading(false); // Set project loading to false on exception.
             }
-
         }
 
-        fetchProjects()
+        fetchProjects(); // Call the fetchProjects function when the component is mounted.
 
-    }, [])
+    }, []);
 
     useEffect(() => {
+        // This useEffect sets up a listener for changes to the 'portfolio-projects' table in the database.
 
         const projectListener = supabase
             .channel('any')
             .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'portfolio-projects' }, payload => {
                 const newProject = payload.new;
                 setProjects((oldProject) => {
+                    // Add the newly inserted project to the list of projects and sort them by ID.
                     const newProjects = [...oldProject, newProject];
                     newProjects.sort((a, b) => b.id - a.id);
                     return newProjects;
                 });
             })
-            .subscribe()
+            .subscribe();
 
         return () => {
-
-            supabase.removeChannel(projectListener)
-
+            supabase.removeChannel(projectListener); // Cleanup: remove the listener when the component is unmounted.
         };
 
-    }, [])
+    }, []);
 
     const deleteProject = async (id) => {
+        // Function to delete a project.
 
         try {
+            setDeleteLoading(true); // Set delete loading to true.
 
-            setDeleteLoading(true)
-
+            // Delete the project with the given ID from the database.
             const { error } = await supabase
                 .from('portfolio-projects')
                 .delete()
-                .eq('id', `${id}`)
+                .eq('id', `${id}`);
 
             if (error) {
-
-                setDeleteLoading(false)
-
+                setDeleteLoading(false); // Set delete loading to false on error.
             } else {
-
-                setDeleteLoading(false)
-
-                setProjects(project.filter((x) => x.id != id))
-
+                setDeleteLoading(false); // Set delete loading to false on success.
+                setProjects(project.filter((x) => x.id != id)); // Remove the deleted project from the state.
             }
-
         } catch (error) {
-
-            console.log(error)
-
+            console.log(error); // Log any errors that occur during the delete operation.
         }
-
     }
+
 
     return (
 
@@ -339,7 +315,7 @@ export function Projects(props) {
 
                                         </div>
                                     </div>
-                                    <hr style={{ width: "160px"}} />
+                                    <hr style={{ width: "160px" }} />
                                     <br />
 
                                 </>
@@ -359,52 +335,46 @@ export function Projects(props) {
 
 export function Contact(props) {
 
-    const [contactLoading, setContactLoading] = useState(false)
+    // State to track the loading status of contact information.
+    const [contactLoading, setContactLoading] = useState(false);
 
-    const [mail, setMail] = useState("")
-    const [x, setX] = useState("")
-    const [linkedIn, setLinkedIn] = useState("")
-    const [phoneNumber, setPhoneNumber] = useState("")
+    // States to store various contact information.
+    const [mail, setMail] = useState(""); // Email
+    const [x, setX] = useState(""); // X link (possibly a website or profile)
+    const [linkedIn, setLinkedIn] = useState(""); // LinkedIn profile link
+    const [phoneNumber, setPhoneNumber] = useState(""); // Phone number
 
     useEffect(() => {
+        // This useEffect is used to fetch contact information when the component is mounted.
 
         async function fetchContacts() {
-
-            setContactLoading(true)
+            setContactLoading(true); // Set contact loading to true.
 
             try {
-
+                // Fetch contact information from a database (likely Supabase).
                 const { data: contact, error } = await supabase
                     .from('project-contact')
                     .select('*')
                     .eq('portfolio_id', `${props.id}`)
-                    .single()
+                    .single();
 
                 if (contact) {
-
-                    setMail(contact.email_link)
-
-                    setX(contact.x_link)
-
-                    setLinkedIn(contact.linkedin_link)
-
-                    setPhoneNumber(contact.phone_number)
-
-                    setContactLoading(false)
-
+                    // Update the state with the fetched contact information.
+                    setMail(contact.email_link);
+                    setX(contact.x_link);
+                    setLinkedIn(contact.linkedin_link);
+                    setPhoneNumber(contact.phone_number);
+                    setContactLoading(false); // Set contact loading back to false.
                 }
-
             } catch (error) {
-
-                setContactLoading(false)
-
+                setContactLoading(false); // Set contact loading to false on exception or error.
             }
-
         }
 
-        fetchContacts()
+        fetchContacts(); // Call the fetchContacts function when the component is mounted.
 
-    }, [])
+    }, []);
+
 
 
     return (

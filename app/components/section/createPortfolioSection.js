@@ -5,30 +5,37 @@ import { useRouter } from "next/navigation";
 
 export default function CreatePortfolio() {
 
+    // Import necessary modules and functions
     const router = useRouter();
 
+    // Initialize state variables for loading, status, and error handling
     const [loading, setLoading] = useState(false);
     const [status, setStatus] = useState(false);
     const [error, setError] = useState(false);
 
+    // Get the Hanko API URL from environment variables and create a Hanko instance
     const hankoApi = process.env.NEXT_PUBLIC_HANKO_API_URL;
     const hanko = new Hanko(hankoApi);
 
+    // Define a function to create a new portfolio
     async function createPortfolio(event) {
-
+        // Prevent the default form submission behavior
         event.preventDefault();
 
+        // Set the loading state to true while processing the form submission
         setLoading(true);
 
         try {
-
+            // Get the current user's ID using Hanko
             const { id } = await hanko.user.getCurrent();
 
+            // Prepare the data for creating a new portfolio
             const create_portfolio_data = {
                 portfolio_title: String(event.target.name.value),
                 user_id: `${id}`
             }
 
+            // Send a POST request to the server (API) to create a new portfolio
             const response = await fetch('/api/createPortfolio', {
                 method: 'POST',
                 headers: {
@@ -37,43 +44,50 @@ export default function CreatePortfolio() {
                 body: JSON.stringify(create_portfolio_data),
             });
 
-            const data = await response.json()
+            // Parse the response data
+            const data = await response.json();
 
             if (data.status === 201) {
+                // If the portfolio creation is successful
 
-                setStatus(true)
+                // Update the status state to indicate success
+                setStatus(true);
 
-                setError(false)
+                // Reset the error state
+                setError(false);
 
-                setLoading(false)
+                // Set the loading state to false
+                setLoading(false);
 
+                // Redirect the user to the edit portfolio page
                 router.push(`/editPortfolio/${data.id}`);
                 router.refresh();
-
-
             } else {
+                // If the portfolio creation is not successful
 
-                setError(true)
+                // Update the error state to indicate an error
+                setError(true);
 
-                setStatus(false)
+                // Reset the status state
+                setStatus(false);
 
-                setLoading(false)
-
+                // Set the loading state to false
+                setLoading(false);
             }
-
-            setLoading(false);
-
         } catch (error) {
+            // Handle errors that may occur during the portfolio creation process
 
-            setError(true)
+            // Update the error state to indicate an error
+            setError(true);
 
-            setStatus(false)
+            // Reset the status state
+            setStatus(false);
 
-            setLoading(false)
-
+            // Set the loading state to false
+            setLoading(false);
         }
-
     }
+
 
     return (
 

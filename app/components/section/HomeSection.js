@@ -10,70 +10,72 @@ import { useRouter } from "next/navigation";
 
 export default function HomeSection() {
 
+    // Import necessary modules and functions
     const router = useRouter();
 
+    // Initialize state variables for portfolios and loading state
     const [portfolios, setPortfolio] = useState([]);
     const [loading, setLoading] = useState(false);
 
+    // Use the useEffect hook to fetch user portfolios when the component mounts
     useEffect(() => {
+        // Set the loading state to true while fetching data
+        setLoading(true);
 
-        setLoading(true)
-
+        // Define an async function to fetch user portfolios
         async function fetchPortfolio() {
-
+            // Get the Hanko API URL from environment variables
             const hankoApi = process.env.NEXT_PUBLIC_HANKO_API_URL;
+
+            // Create a Hanko instance using the API URL
             const hanko = new Hanko(hankoApi);
+
+            // Retrieve the current user's ID from Hanko
             const { id } = await hanko.user.getCurrent();
 
             try {
-
+                // Fetch user portfolio data from an external source (e.g., Supabase)
                 const { data: portfolio, error } = await supabase
                     .from('portfolio')
                     .select('*')
-                    .eq('user_id', `${id}`)
+                    .eq('user_id', `${id}`);
 
                 if (portfolio) {
-
+                    // If portfolio data is available, check if there are any portfolios
                     if (portfolio.length === 0) {
-
+                        // If no portfolios exist, redirect the user to a creation page and refresh the router
                         router.push("/Create");
                         router.refresh();
-
                     }
 
-                    setPortfolio(portfolio)
+                    // Update the state variable with the fetched portfolio data
+                    setPortfolio(portfolio);
 
-                    setLoading(false)
-
-
+                    // Set the loading state to false after data is loaded
+                    setLoading(false);
                 } else if (error) {
-
-                    setLoading(false)
-
+                    // Handle any errors, if encountered
+                    setLoading(false);
                 }
-
-
             } catch (error) {
-
-                setLoading(false)
-
+                // Handle errors that occur during data fetching
+                setLoading(false);
             }
-
         }
 
-        fetchPortfolio()
+        // Call the fetchPortfolio function when the component mounts
+        fetchPortfolio();
+    }, []);
 
-
-    }, [])
-
-
+    // Define a function to copy a link to the clipboard
     const copyToClipBoard = async (id) => {
-
+        // Use clipboardCopy to copy a URL to the clipboard
         clipboardCopy(`https://devxx.vercel.app/dev/${id}`);
 
-        alert("Link copied to clipboard")
-
+        // Show an alert to indicate that the link has been copied to the clipboard
+        alert("Link copied to clipboard");
     }
+
 
 
     return (
