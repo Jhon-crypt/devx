@@ -1,6 +1,6 @@
 'use client'
 import dynamic from 'next/dynamic';
-const HomeSection = dynamic(() => import('../components/section/HomeSection'), { ssr: false })
+import HomeSection from '../components/section/HomeSection'
 const SidebarHeader = dynamic(() => import('../components/header/sidebarHeader'), { ssr: false })
 const StickyHeader = dynamic(() => import('../components/header/stickyHeader'), { ssr: false })
 import { Suspense } from "react";
