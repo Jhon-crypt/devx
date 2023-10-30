@@ -72,7 +72,7 @@ export default function StickyHeader(props) {
                             </Link>
                         </li>
                         <li>
-                            <Link href="/Settings" aria-label="dashboard" class="relative px-4 py-3 flex items-center space-x-4 rounded-xl text-indigo-500 hover:text-white hover:bg-indigo-500">
+                            <Link href="/user_settings" aria-label="dashboard" class="relative px-4 py-3 flex items-center space-x-4 rounded-xl text-indigo-500 hover:text-white hover:bg-indigo-500">
                                 <BiCog class="-ml-1 h-6 w-6" />
                                 <span class="-mr-1 font-medium">Settings</span>
                             </Link>

@@ -47,25 +47,7 @@ export default function SidebarHeader() {
                         </Link>
                     </div>
 
-                    {/*}
-                    <div class="mt-8 text-center">
-                        <div className="flex items-center justify-center">
-
-                            <div className="pl-8 pr-8 pt-8 pb-8 rounded-full bg-indigo-500 text-white font-bold text-2xl mb-1">
-
-                                <b><BsCodeSlash /></b>
-
-                            </div>
-
-                        </div>
-
-                        <h5 class="hidden mt-4 text-xl font-semibold text-gray-600 lg:block overflow-hidden overflow-ellipsis">
-                            <UserProfile />
-                        </h5>
-
-                        <span class="hidden text-gray-400 lg:block">Front-end developer</span>
-                    </div>
-                    {*/}
+                    
 
                     <ul class="space-y-2 tracking-wide mt-8">
                         <li>
@@ -81,7 +63,7 @@ export default function SidebarHeader() {
                             </Link>
                         </li>
                         <li>
-                            <Link href="/Settings" aria-label="dashboard" class="relative px-4 py-3 flex items-center space-x-4 rounded-xl text-indigo-500 hover:text-white hover:bg-indigo-500">
+                            <Link href="/user_settings" aria-label="dashboard" class="relative px-4 py-3 flex items-center space-x-4 rounded-xl text-indigo-500 hover:text-white hover:bg-indigo-500">
                                 <BiCog class="-ml-1 h-6 w-6" />
                                 <span class="-mr-1 font-medium">Settings</span>
                             </Link>

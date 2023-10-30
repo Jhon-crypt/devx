@@ -54,9 +54,6 @@ export default function Header(){
                             <Link href="/Login" className="w-full px-4 py-2 -ml-4 text-gray-500 rounded-md hover:text-indigo-500 focus:text-indigo-500 focus:bg-indigo-100 focus:outline-none">
                                 Login
                             </Link>
-                            <Link href="/Search" className="w-full px-4 py-2 -ml-4 text-gray-500 rounded-md hover:text-indigo-500 focus:text-indigo-500 focus:bg-indigo-100 focus:outline-none">
-                                Search
-                            </Link>
                         <Link href="/Portfolio" className="w-full px-6 py-2 mt-3 text-center text-white bg-indigo-600 rounded-md lg:ml-5">         
                             Get Started
                         </Link>
