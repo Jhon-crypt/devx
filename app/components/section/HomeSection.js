@@ -1,4 +1,5 @@
-import { AiOutlineLink, AiFillDelete } from "react-icons/ai";
+'use client'
+import { AiOutlineLink } from "react-icons/ai";
 import { BiSolidEdit } from "react-icons/bi";
 import { Hanko } from "@teamhanko/hanko-elements";
 import clipboardCopy from 'clipboard-copy';
