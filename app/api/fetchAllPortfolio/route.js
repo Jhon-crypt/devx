@@ -23,7 +23,7 @@ export async function GET(req) {
         if(error){
 
             const error_message  = "Error while fetching portfolio, try again by refreshing your browser"
-            return NextResponse.json({ error: error_message, error_status: 500})
+            return NextResponse.json({ error: error, error_status: 500})
 
         }else{
 
@@ -36,7 +36,7 @@ export async function GET(req) {
 
         const error_message  = "Error while fetching portfolio, try again by refreshing your browser"
 
-        return NextResponse.json({ error: error_message})
+        return NextResponse.json({ error: error})
 
     }
 
