@@ -1,5 +1,5 @@
 'use client'
-export const dynamic = 'auto'
+import dynamic from 'next/dynamic';
 const HomeSection = dynamic(() => import('../components/section/HomeSection'), { ssr: false })
 const SidebarHeader = dynamic(() => import('../components/header/sidebarHeader'), { ssr: false })
 const StickyHeader = dynamic(() => import('../components/header/stickyHeader'), { ssr: false })
