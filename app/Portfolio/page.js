@@ -1,5 +1,4 @@
 'use client'
-import dynamic from 'next/dynamic';
 export const dynamic = "force-dynamic";
 const HomeSection = dynamic(() => import('../components/section/HomeSection'), { ssr: false })
 const SidebarHeader = dynamic(() => import('../components/header/sidebarHeader'), { ssr: false })
