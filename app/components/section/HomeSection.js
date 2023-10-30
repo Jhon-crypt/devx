@@ -6,7 +6,7 @@ import Link from "next/link";
 
 async function getPortfolio(id) {
 
-    const res = await fetch(`http://localhost:3000/api/fetchAllPortfolio?user_id=${id}`)
+    const res = await fetch(`https://devxx.vercel.app/api/fetchAllPortfolio?user_id=${id}`)
 
     if (!res.ok) {
         // This will activate the closest `error.js` Error Boundary
