@@ -93,7 +93,7 @@ export default function HomeSection() {
 
                 <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
 
-                    {user_portfolio.map((portfolio) => (
+                    {portfolios.map((portfolio) => (
                         <div key={portfolio.id}>
 
                             <div class="relative flex w-full max-w-[26rem] flex-col rounded-xl bg-white bg-clip-border text-gray-700 shadow-lg">
