@@ -1,4 +1,4 @@
-'use client'
+
 import EditPortfolioTabs from '../../components/tabs/editPortfolioTabs.js'
 import { useState, useEffect } from 'react';
 import PortfolioPreviewTabs from '../tabs/portfolioPreviewTabs.js';

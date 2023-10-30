@@ -39,16 +39,6 @@ export async function POST(req) {
     
         }
     
-        async function createPortfolioViews() {
-    
-            const { error } = await supabase
-                .from("portfolio-views")
-                .insert({
-                    "user_id": `${user_id}`,
-                    "portfolio_id": `${portfolio_id}`
-                });
-    
-        }
     
         async function createPortfolioContact() {
     
@@ -73,14 +63,13 @@ export async function POST(req) {
 
         if (error) {
 
-            const error_message = "Error while creating portfolio, try again"
-            return NextResponse.json({ error: error_message, status: 500 })
+            //const error_message = "Error while creating portfolio, try again"
+            return NextResponse.json({ error: error, status: 500 })
 
         } else {
 
             createPortfolioProjects();
             createPortfolioSkills();
-            createPortfolioViews();
             createPortfolioContact();
 
             return NextResponse.json({ status: 201, id: portfolio_id })
@@ -90,8 +79,8 @@ export async function POST(req) {
 
     } catch (error) {
 
-        const error_message = "Error while creating portfolio, try again"
-        return NextResponse.json({ error: error_message, error_status: 500 })
+        //const error_message = "Error while creating portfolio, try again"
+        return NextResponse.json({ error: error, error_status: 500 })
 
     }
 

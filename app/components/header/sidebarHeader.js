@@ -1,13 +1,13 @@
 'use client'
+import dynamic from 'next/dynamic';
 import Link from "next/link"
 import { FaUserSecret } from "react-icons/fa";
 import { ImProfile } from "react-icons/im";
 import { AiOutlinePlusSquare } from "react-icons/ai";
-import { BiCog } from "react-icons/bi";
+import { BiCog, } from "react-icons/bi";
 import { GrLogout } from "react-icons/gr";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { Hanko } from "@teamhanko/hanko-elements";
 
 const hankoApi = process.env.NEXT_PUBLIC_HANKO_API_URL;
 
@@ -22,16 +22,17 @@ export default function SidebarHeader() {
         );
     }, []);
 
+
     const logout = async () => {
         try {
-          await hanko?.user.logout();
-          router.push("/Login");
-          router.refresh();
-          return;
+            await hanko?.user.logout();
+            router.push("/Login");
+            router.refresh();
+            return;
         } catch (error) {
-          console.error("Error during logout:", error);
+            console.error("Error during logout:", error);
         }
-      };
+    };
 
     return (
 
@@ -46,11 +47,25 @@ export default function SidebarHeader() {
                         </Link>
                     </div>
 
+                    {/*}
                     <div class="mt-8 text-center">
-                        <img src="https://tailus.io/sources/blocks/stats-cards/preview/images/second_user.webp" alt="" class="w-10 h-10 m-auto rounded-full object-cover lg:w-28 lg:h-28" />
-                        <h5 class="hidden mt-4 text-xl font-semibold text-gray-600 lg:block">Cynthia J. Watts</h5>
+                        <div className="flex items-center justify-center">
+
+                            <div className="pl-8 pr-8 pt-8 pb-8 rounded-full bg-indigo-500 text-white font-bold text-2xl mb-1">
+
+                                <b><BsCodeSlash /></b>
+
+                            </div>
+
+                        </div>
+
+                        <h5 class="hidden mt-4 text-xl font-semibold text-gray-600 lg:block overflow-hidden overflow-ellipsis">
+                            <UserProfile />
+                        </h5>
+
                         <span class="hidden text-gray-400 lg:block">Front-end developer</span>
                     </div>
+                    {*/}
 
                     <ul class="space-y-2 tracking-wide mt-8">
                         <li>

@@ -6,29 +6,18 @@ import clipboardCopy from 'clipboard-copy';
 import Link from "next/link";
 import { useState, useEffect } from 'react';
 import supabase from "@/app/supabase/supabase";
-
-
-{/*}
-async function getPortfolio(id) {
-
-    const res = await fetch(`https://devxx.vercel.app/api/fetchAllPortfolio?user_id=${id}`)
-
-    if (!res.ok) {
-        // This will activate the closest `error.js` Error Boundary
-        console.log('Failed to fetch data')
-    }
-
-    return res.json()
-
-}
-{*/}
+import { useRouter } from "next/navigation";
 
 export default function HomeSection() {
+
+    const router = useRouter();
 
     const [portfolios, setPortfolio] = useState([]);
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
+
+        setLoading(true)
 
         async function fetchPortfolio() {
 
@@ -38,27 +27,35 @@ export default function HomeSection() {
 
             try {
 
-                const { data: portfolilo, error } = await supabase
+                const { data: portfolio, error } = await supabase
                     .from('portfolio')
                     .select('*')
                     .eq('user_id', `${id}`)
 
-                if(portfolilo){
+                if (portfolio) {
 
-                    setPortfolio(portfolilo)
+                    if (portfolio.length === 0) {
 
-                    console.log(error)
+                        router.push("/Create");
+                        router.refresh();
 
-                }else{
+                    }
 
-                    console.log(error)
+                    setPortfolio(portfolio)
+
+                    setLoading(false)
+
+
+                } else if (error) {
+
+                    setLoading(false)
 
                 }
 
 
             } catch (error) {
 
-                console.log(error)
+                setLoading(false)
 
             }
 
@@ -72,7 +69,7 @@ export default function HomeSection() {
 
     const copyToClipBoard = async (id) => {
 
-        clipboardCopy(`https://devxx.vercel.app/portfolio/${id}`);
+        clipboardCopy(`https://devxx.vercel.app/dev/${id}`);
 
         alert("Link copied to clipboard")
 
@@ -83,87 +80,88 @@ export default function HomeSection() {
 
         <>
 
-            {/*}If loading is true, render a loading spinner
-                    <div className="flex justify-center mt-20">
-                        <span className="loading loading-spinner loading-lg"></span>
-                    </div>
-                    {*/}
-
-
             <div class="px-6 pt-6 2xl:container">
 
-                <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+                {loading ?
+                    <>
 
-                    {portfolios.map((portfolio) => (
-                        <div key={portfolio.id}>
+                        <div className="flex justify-center mt-20">
+                            <span className="loading loading-spinner loading-lg"></span>
+                        </div>
 
-                            <div class="relative flex w-full max-w-[26rem] flex-col rounded-xl bg-white bg-clip-border text-gray-700 shadow-lg">
-                                <div class="relative mx-4 mt-4 overflow-hidden rounded-xl bg-blue-gray-500 bg-clip-border text-white shadow-lg shadow-blue-gray-500/40">
-                                    <div className="h-40">
+                    </>
+                    :
+                    <>
 
-                                        <img
-                                            src="/img/code2.svg"
-                                            alt="ui/ux review check"
-                                            class="object-cover w-full h-full"
-                                        />
+                        <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
 
-                                    </div>
+                            {portfolios.map((portfolio) => (
+                                <div key={portfolio.id}>
+
+                                    <div class="relative flex w-full max-w-[26rem] flex-col rounded-xl bg-white bg-clip-border text-gray-700 shadow-lg">
+                                        <div class="relative mx-4 mt-4 overflow-hidden rounded-xl bg-blue-gray-500 bg-clip-border text-white shadow-lg shadow-blue-gray-500/40">
+                                            <div className="h-40">
+
+                                                <img
+                                                    src="/img/code2.svg"
+                                                    alt="ui/ux review check"
+                                                    class="object-cover w-full h-full"
+                                                />
+
+                                            </div>
 
 
 
-                                </div>
-                                <div class="p-6">
-                                    <div class="mb-3 flex items-center justify-between">
-                                        <h5 class="block font-sans text-xl font-medium leading-snug tracking-normal text-blue-gray-900 antialiased">
-                                            {portfolio.name}
-                                        </h5>
+                                        </div>
+                                        <div class="p-6">
+                                            <div class="mb-3 flex items-center justify-between">
+                                                <h5 class="block font-sans text-xl font-medium leading-snug tracking-normal text-blue-gray-900 antialiased">
+                                                    {portfolio.name}
+                                                </h5>
 
 
-                                    </div>
+                                            </div>
 
-                                    <div class="group mt-8 inline-flex flex-wrap items-center gap-3">
+                                            <div class="group mt-8 inline-flex flex-wrap items-center gap-3">
 
-                                        <span onClick={() => copyToClipBoard(portfolio.portfolio_id)} class="cursor-pointer rounded-full border border-indigo-500/5 bg-indigo-500/5 p-3 text-indigo-500 transition-colors hover:border-indigo-500/10 hover:bg-indigo-500/10 hover:!opacity-100 group-hover:opacity-70"
-                                        >
-                                            <AiOutlineLink class="h-5 w-5" />
-                                        </span>
-                                        <span class="cursor-pointer rounded-full border border-indigo-500/5 bg-indigo-500/5 p-3 text-indigo-500 transition-colors hover:border-indigo-500/10 hover:bg-indigo-500/10 hover:!opacity-100 group-hover:opacity-70"
-                                        >
-                                            <Link href={`/editPortfolio/${portfolio.portfolio_id}`}>
-                                                <BiSolidEdit class="h-5 w-5" />
-                                            </Link>
-                                        </span>
-                                        {/*Delete button
-                                                <span onClick={() => deleteSelectedPortfolio(portfolio.portfolio_id)} class="cursor-pointer rounded-full border border-indigo-500/5 bg-indigo-500/5 p-3 text-indigo-500 transition-colors hover:border-indigo-500/10 hover:bg-indigo-500/10 hover:!opacity-100 group-hover:opacity-70"
+                                                <span onClick={() => copyToClipBoard(portfolio.portfolio_id)} class="cursor-pointer rounded-full border border-indigo-500/5 bg-indigo-500/5 p-3 text-indigo-500 transition-colors hover:border-indigo-500/10 hover:bg-indigo-500/10 hover:!opacity-100 group-hover:opacity-70"
                                                 >
-                                                    <AiFillDelete class="h-5 w-5" />
+                                                    <AiOutlineLink class="h-5 w-5" />
                                                 </span>
-                                                */}
+                                                <span class="cursor-pointer rounded-full border border-indigo-500/5 bg-indigo-500/5 p-3 text-indigo-500 transition-colors hover:border-indigo-500/10 hover:bg-indigo-500/10 hover:!opacity-100 group-hover:opacity-70"
+                                                >
+                                                    <Link href={`/editPortfolio/${portfolio.portfolio_id}`}>
+                                                        <BiSolidEdit class="h-5 w-5" />
+                                                    </Link>
+                                                </span>
 
+                                            </div>
+                                        </div>
+                                        <div class="p-6 pt-3">
+                                            <Link href={`/dev/${portfolio.portfolio_id}`}
+                                                class="block w-full select-none rounded-lg border border-indigo-500 py-3.5 px-7 text-center font-sans text-sm font-bold uppercase text-indigo-500 hover:bg-indigo-500 hover:text-white hover:shadow-md hover:shadow-indigo-500/40 transition-all focus:opacity-85 focus:shadow-none active:opacity-85 active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+                                                type="button"
+                                                data-ripple-light="true"
+                                            >
+                                                View Portfolio
+                                            </Link>
 
-
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="p-6 pt-3">
-                                    <Link href={`/dev/${portfolio.portfolio_id}`}
-                                        class="block w-full select-none rounded-lg border border-indigo-500 py-3.5 px-7 text-center font-sans text-sm font-bold uppercase text-indigo-500 hover:bg-indigo-500 hover:text-white hover:shadow-md hover:shadow-indigo-500/40 transition-all focus:opacity-85 focus:shadow-none active:opacity-85 active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
-                                        type="button"
-                                        data-ripple-light="true"
-                                    >
-                                        View Portfolio
-                                    </Link>
+
+
+                                    <script src="https://unpkg.com/@material-tailwind/html@latest/scripts/ripple.js"></script>
 
                                 </div>
-                            </div>
-
-
-                            <script src="https://unpkg.com/@material-tailwind/html@latest/scripts/ripple.js"></script>
+                            ))}
+                            {/*}End of col{*/}
 
                         </div>
-                    ))}
-                    {/*}End of col{*/}
 
-                </div>
+                    </>
+                }
+
+
             </div>
 
 

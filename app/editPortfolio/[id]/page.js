@@ -1,3 +1,4 @@
+"use client"
 import SidebarHeader from "../../components/header/sidebarHeader"
 import StickyHeader from "../../components/header/stickyHeader"
 import EditPortfolioSection from '../../components/section/editPortfolioSection'
