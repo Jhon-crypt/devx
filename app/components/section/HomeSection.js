@@ -4,7 +4,10 @@ import { BiSolidEdit } from "react-icons/bi";
 import { Hanko } from "@teamhanko/hanko-elements";
 import clipboardCopy from 'clipboard-copy';
 import Link from "next/link";
+import { useState, useEffect } from 'react';
 
+
+{/*}
 async function getPortfolio(id) {
 
     const res = await fetch(`https://devxx.vercel.app/api/fetchAllPortfolio?user_id=${id}`)
@@ -17,19 +20,53 @@ async function getPortfolio(id) {
     return res.json()
 
 }
+{*/}
 
-export default async function HomeSection() {
+export default function HomeSection() {
 
-    const hankoApi = process.env.NEXT_PUBLIC_HANKO_API_URL;
-    const hanko = new Hanko(hankoApi);
-    const { id } = await hanko.user.getCurrent();
+    const [portfolios, setPortfolio] = useState([]);
+    const [loading, setLoading] = useState(false);
+
+    useEffect(() => {
+
+        async function fetchPortfolio() {
+
+            const hankoApi = process.env.NEXT_PUBLIC_HANKO_API_URL;
+            const hanko = new Hanko(hankoApi);
+            const { id } = await hanko.user.getCurrent();
+
+            try {
+
+                const { data: portfolilo, error } = await supabase
+                    .from('portfolio')
+                    .select('*')
+                    .eq('user_id', `${id}`)
+
+                if(portfolilo){
+
+                    setPortfolio(portfolilo)
+
+                    console.log(error)
+
+                }else{
+
+                    console.log(error)
+
+                }
 
 
-    const data = await getPortfolio(id)
+            } catch (error) {
 
-    const user_portfolio = data.portfolios
+                console.log(error)
 
-    console.log(data)
+            }
+
+        }
+
+        fetchPortfolio()
+
+
+    }, [])
 
 
     const copyToClipBoard = async (id) => {
