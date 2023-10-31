@@ -25,12 +25,6 @@ export default function About() {
                     a developer.
                 </Section>
                 <BenefitSection data={benefitOne} />
-                <Section pretitle="FAQ"
-                    title="Frequently Asked Questions">
-                    Craft your coding journey with our platform and create a portfolio that showcases 
-                    your skills, projects, career progression, share your experiences, and inspire others
-                </Section>
-                <Faq />
                 <CtaSection />
                 
             </div>
