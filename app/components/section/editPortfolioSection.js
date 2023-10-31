@@ -51,9 +51,7 @@ export default function EditPortfolioSection(props) {
                                 </div>
                             </div>
                             {elementVisible ? (
-                                <button class="bg-white border border-indigo-500 text-indigo-500 rounded-md px-2 py-1 text-sm hover:bg-indigo-500 hover:text-white hover:border-indigo-600 focus:outline-none focus:ring focus:ring-indigo-200">
-                                    Full preview
-                                </button>
+                               <></>
                             ) : (
                                 <label htmlFor="my_modal_6" class="bg-white border border-indigo-500 text-indigo-500 rounded-md px-2 py-1 text-sm hover:bg-indigo-500 hover:text-white hover:border-indigo-600 focus:outline-none focus:ring focus:ring-indigo-200">
                                     Preview
