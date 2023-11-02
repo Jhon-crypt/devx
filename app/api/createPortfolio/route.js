@@ -22,7 +22,6 @@ export async function POST(req) {
             const { error } = await supabase
                 .from("portfolio-projects")
                 .insert({
-                    "user_id": `${user_id}`,
                     "portfolio_id": `${portfolio_id}`
                 });
         }
@@ -31,7 +30,6 @@ export async function POST(req) {
             const { error } = await supabase
                 .from("portfolio-skills")
                 .insert({
-                    "user_id": `${user_id}`,
                     "portfolio_id": `${portfolio_id}`
                 });
         }
@@ -40,7 +38,6 @@ export async function POST(req) {
             const { error } = await supabase
                 .from("project-contact")
                 .insert({
-                    "user_id": `${user_id}`,
                     "portfolio_id": `${portfolio_id}`
                 });
         }
