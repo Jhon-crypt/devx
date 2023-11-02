@@ -129,7 +129,27 @@ export function Skills(props) {
         fetchSkills();
     }, []);
 
+    useEffect(() => {
+        // This useEffect sets up a listener for changes to the 'portfolio-projects' table in the database.
 
+        const skillsListener = supabase
+            .channel('any')
+            .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'portfolio-skills' }, payload => {
+                const newSkill = payload.new;
+                setprofile_skills((oldSkill) => {
+                    // Add the newly inserted project to the list of projects and sort them by ID.
+                    const newSkills = [...oldSkill, newSkill];
+                    newSkills.sort((a, b) => b.id - a.id);
+                    return newSkills;
+                });
+            })
+            .subscribe();
+
+        return () => {
+            supabase.removeChannel(skillsListener); // Cleanup: remove the listener when the component is unmounted.
+        };
+
+    }, []);
 
 
     return (
@@ -138,6 +158,9 @@ export function Skills(props) {
 
             <div class="bg-white font-semibold text-center rounded-3xl border shadow-lg p-10 max-w-xs">
                 <h1 class="text-lg text-gray-700"> Skills </h1>
+
+
+
                 {skillsLoading ?
                     <>
                         <div className="flex justify-center mb-2">
@@ -146,21 +169,21 @@ export function Skills(props) {
                     </>
                     :
                     <>
-                        <ul className="menu bg-base-200  rounded-box overflow-x-auto max-h-[10rem]" style={{ height: "auto", maxHeight: "20px;", overflow: "auto;" }}>
-                            {profile_skills.map((skills) => (
-                                <>
-                                    <li><a>
-                                        <div className="badge badge-outline gap-2">
+
+                        <div className="flex justify-center mb-2">
+                            <div class="bg-white rounded-lg border border-gray-200 w-48 text-gray-900 text-sm font-medium overflow-x-auto max-h-[10rem]" style={{ height: "auto", maxHeight: "20px;", overflow: "auto;" }}>
+                                {profile_skills.map((skills) => (
+                                    <>
+                                        <a href="#" class="block px-4 py-2 border-b border-gray-200 w-full hover:bg-gray-100 hover:text-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-700 focus:text-blue-700 cursor-pointer">
                                             {skills.skills_name}
-                                        </div>
-                                    </a></li>
-                                </>
-                            ))}
-                        </ul>
+                                        </a>
+                                    </>
+                                ))}
+                            </div>
+                        </div>
+
                     </>
                 }
-
-
 
             </div>
 
@@ -348,9 +371,10 @@ export function Contact(props) {
         // This useEffect is used to fetch contact information when the component is mounted.
 
         async function fetchContacts() {
-            setContactLoading(true); // Set contact loading to true.
 
             try {
+
+                setContactLoading(true); // Set contact loading to true.
                 // Fetch contact information from a database (likely Supabase).
                 const { data: contact, error } = await supabase
                     .from('project-contact')
@@ -365,6 +389,8 @@ export function Contact(props) {
                     setLinkedIn(contact.linkedin_link);
                     setPhoneNumber(contact.phone_number);
                     setContactLoading(false); // Set contact loading back to false.
+                } else if (error) {
+                    setContactLoading(false);
                 }
             } catch (error) {
                 setContactLoading(false); // Set contact loading to false on exception or error.
@@ -394,23 +420,22 @@ export function Contact(props) {
 
                         <ul className="menu bg-base-200 lg:menu-horizontal rounded-box">
                             <li>
-                                <a href={`mailto:${mail}`} target="_blank">
+                                <a className="flex justify-center" href={`mailto:${mail}`} target="_blank">
                                     <BiLogoGmail className="h-5 w-5" />
-
                                 </a>
                             </li>
                             <li>
-                                <a href={`https://${x}`} target="_blank">
+                                <a className="flex justify-center" href={`https://${x}`} target="_blank">
                                     <AiFillTwitterCircle className="h-5 w-5" />
-
                                 </a>
                             </li>
                             <li>
-                                <a href={`https://${linkedIn}`} target="_blank">
+                                <a className="flex justify-center" href={`https://${linkedIn}`} target="_blank">
                                     <AiFillLinkedin className="h-5 w-5" />
                                 </a>
                             </li>
                         </ul>
+
                         <ul className="mt-3 menu lg:menu-horizontal bg-base-200 rounded-box">
                             <li>
                                 <a href={`tel:${phoneNumber}`} target="_blank">
