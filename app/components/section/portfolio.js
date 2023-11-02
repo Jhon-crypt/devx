@@ -158,8 +158,8 @@ export function Skills(props) {
 
             <div class="bg-white font-semibold text-center rounded-3xl border shadow-lg p-10 max-w-xs">
                 <h1 class="text-lg text-gray-700"> Skills </h1>
-                
-                
+
+
 
                 {skillsLoading ?
                     <>
@@ -389,8 +389,8 @@ export function Contact(props) {
                     setLinkedIn(contact.linkedin_link);
                     setPhoneNumber(contact.phone_number);
                     setContactLoading(false); // Set contact loading back to false.
-                }else if(error){
-                    setContactLoading(false); 
+                } else if (error) {
+                    setContactLoading(false);
                 }
             } catch (error) {
                 setContactLoading(false); // Set contact loading to false on exception or error.
@@ -420,23 +420,22 @@ export function Contact(props) {
 
                         <ul className="menu bg-base-200 lg:menu-horizontal rounded-box">
                             <li>
-                                <a href={`mailto:${mail}`} target="_blank">
+                                <a className="flex justify-center" href={`mailto:${mail}`} target="_blank">
                                     <BiLogoGmail className="h-5 w-5" />
-
                                 </a>
                             </li>
                             <li>
-                                <a href={`https://${x}`} target="_blank">
+                                <a className="flex justify-center" href={`https://${x}`} target="_blank">
                                     <AiFillTwitterCircle className="h-5 w-5" />
-
                                 </a>
                             </li>
                             <li>
-                                <a href={`https://${linkedIn}`} target="_blank">
+                                <a className="flex justify-center" href={`https://${linkedIn}`} target="_blank">
                                     <AiFillLinkedin className="h-5 w-5" />
                                 </a>
                             </li>
                         </ul>
+
                         <ul className="mt-3 menu lg:menu-horizontal bg-base-200 rounded-box">
                             <li>
                                 <a href={`tel:${phoneNumber}`} target="_blank">
