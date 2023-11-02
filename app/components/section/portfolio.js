@@ -158,29 +158,8 @@ export function Skills(props) {
 
             <div class="bg-white font-semibold text-center rounded-3xl border shadow-lg p-10 max-w-xs">
                 <h1 class="text-lg text-gray-700"> Skills </h1>
-                {/*}
-                {skillsLoading ?
-                    <>
-                        <div className="flex justify-center mb-2">
-                            <span className="loading loading-spinner loading-md"></span>
-                        </div>
-                    </>
-                    :
-                    <>
-                        <ul className="menu bg-base-200  rounded-box overflow-x-auto max-h-[10rem]" style={{ height: "auto", maxHeight: "20px;", overflow: "auto;" }}>
-                            {profile_skills.map((skills) => (
-                                <>
-                                    <li><a>
-                                        <div className="badge badge-outline gap-2">
-                                            {skills.skills_name}
-                                        </div>
-                                    </a></li>
-                                </>
-                            ))}
-                        </ul>
-                    </>
-                }
-                {*/}
+                
+                
 
                 {skillsLoading ?
                     <>
@@ -192,7 +171,7 @@ export function Skills(props) {
                     <>
 
                         <div className="flex justify-center mb-2">
-                            <div class="bg-white rounded-lg border border-gray-200 w-48 text-gray-900 text-sm font-medium">
+                            <div class="bg-white rounded-lg border border-gray-200 w-48 text-gray-900 text-sm font-medium overflow-x-auto max-h-[10rem]" style={{ height: "auto", maxHeight: "20px;", overflow: "auto;" }}>
                                 {profile_skills.map((skills) => (
                                     <>
                                         <a href="#" class="block px-4 py-2 border-b border-gray-200 w-full hover:bg-gray-100 hover:text-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-700 focus:text-blue-700 cursor-pointer">
