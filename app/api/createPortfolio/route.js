@@ -14,7 +14,7 @@ export async function POST(req) {
         const create_portfolio_data = await req.json();
         const { portfolio_title, user_id } = create_portfolio_data;
 
-        // Generate a unique portfolio ID using UUID
+        // Generate a unique ID using UUID
         let portfolio_id = uuidv4();
 
         // Define functions to create entries for related tables (projects, skills, and contact)
