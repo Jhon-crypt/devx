@@ -6,7 +6,7 @@ const inter = Inter({ subsets: ['latin'] })
 
 export const metadata = {
   title: 'DevX',
-  description: '',
+  description: 'DevX allows developers to build their personal portfolios, share their experiences, skills, projects, and other achievements in their coding journey',
 }
 
 export default function RootLayout({ children }) {
@@ -18,7 +18,7 @@ export default function RootLayout({ children }) {
         <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
         <link rel="manifest" href="/site.webmanifest" />
 
-        <meta property="og:image" content="/img/introHero2.svg" />
+        <meta property="og:image" content="https://res.cloudinary.com/db7wwc9ex/image/upload/v1699460432/introHero2_gfhawm.svg" />
         <meta property="og:image:type" content="image/png" />
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="630" />
