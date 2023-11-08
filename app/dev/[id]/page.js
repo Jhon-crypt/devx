@@ -7,7 +7,7 @@ export default function ViewPortfolio({ params }) {
         <>
 
           
-            <div className="h-100 bg-blue-500" style={{ "background-image": "url('/img/bg.jpg')" }}>
+            <div className="h-100" style={{ "background-image": "url('/img/bg.jpg')" }}>
                 <div className="flex flex-col items-center justify-center h-screen md:flex-row backdrop-blur-sm">
                     <PortfolioPreviewTabs id={params.id} />
                 </div>
